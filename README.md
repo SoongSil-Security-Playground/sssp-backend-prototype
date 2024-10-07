@@ -5,7 +5,7 @@ soongsil security playground Ctf Platform backend
 - fastapi
 - react
 - database : 미정
-    - 현재 sqlalchemy 임시사용중
+    - 현재 sqlite3 & sqlalchemy 임시사용중
 
 ## todo
 - .env setup
