@@ -6,7 +6,7 @@ from SSSP.api.models import models
 from SSSP.api.schemas import schema_users
 from SSSP.api.core import auth
 
-from SSSP.api.core.database import get_db
+from SSSP.api.core.database import *
 
 router = APIRouter()
 @router.post("/register", response_model=schema_users.User)

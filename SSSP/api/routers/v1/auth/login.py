@@ -6,7 +6,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 from SSSP.api.models import models
 from SSSP.api.core import auth
 
-from SSSP.api.core.database import get_db
+from SSSP.api.core.database import *
 
 router = APIRouter()
 @router.post("/login")
