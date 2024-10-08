@@ -1,13 +1,12 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 
 # directory dependency
 from SSSP.api.models import models
 from SSSP.api.schemas import schema_users
-from SSSP.api import auth
+from SSSP.api.core import auth
 
-from SSSP.api.database import get_db
+from SSSP.api.core.database import get_db
 
 router = APIRouter()
 @router.post("/register", response_model=schema_users.User)

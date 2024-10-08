@@ -1,10 +1,9 @@
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 
 # directory dependency
 from SSSP.api.models import models
-from SSSP.api.database import engine
+from SSSP.api.core.database import engine
 
 # Router
 from SSSP.api.routers.v1.api import router as v1api
