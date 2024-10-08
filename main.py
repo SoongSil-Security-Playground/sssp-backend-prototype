@@ -1,4 +1,6 @@
 import uvicorn
 
 if __name__ == "__main__":
-    uvicorn.run("app.app:apimain", host="0.0.0.0", port=8000, reload=True)
+    HOST = '0.0.0.0'
+    PORT = 8000
+    uvicorn.run("SSSP.api.app:apimain", host=HOST, port=PORT, reload=True)
