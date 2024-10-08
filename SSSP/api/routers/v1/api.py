@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
 from SSSP.api.routers.v1.auth import register, login
-from SSSP.api.routers.v1 import user_list
+from SSSP.api.routers.v1.default import user_list
 
 router = APIRouter()
 
