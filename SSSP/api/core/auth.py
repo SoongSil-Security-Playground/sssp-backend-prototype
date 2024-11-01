@@ -39,6 +39,12 @@ def create_access_token(data: dict, expires_delta: timedelta = None):
 
 
 def get_current_user_by_jwt(token, db: Session = Depends(get_db)):
+    username = verify_token(token)
+    if username:
+        return db.query(models.User).filter(models.User.username == username).first()
+
+
+def verify_token(token: str):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         logging.info(f"[*] AUTH>> Decoded payload: {payload}")
@@ -48,30 +54,11 @@ def get_current_user_by_jwt(token, db: Session = Depends(get_db)):
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED, detail="Cannot find user id"
             )
+        return username
     except JWTError:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Could not validate credentials",
-        )
-
-    return db.query(models.User).filter(models.User.username == username).first()
-
-
-# Verify token function
-def verify_token(token: str, db: Session = Depends(get_db)):
-    try:
-        # Decode the JWT token
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        user_id: str = payload.get("sub")
-        if user_id is None:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid user ID"
-            )
-    except JWTError:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Could not validate credentials",
-            headers={"WWW-Authenticate": "Bearer"},
         )
 
     # Query user by user_id
