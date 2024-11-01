@@ -7,6 +7,7 @@ class UserCreateRequest(BaseModel):
     email: EmailStr
     password: str
     contents: str
+    authority: Optional[str] = None
 
 
 class UserResponse(BaseModel):

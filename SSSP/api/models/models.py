@@ -1,9 +1,11 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Boolean, Text
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
+from sqlalchemy import Enum as SQLEnum
 from datetime import datetime
 
 # directory dependency
+from SSSP.api.models.enums.user_role import UserRole
 
 Base = declarative_base()
 
@@ -19,7 +21,7 @@ class User(Base):
     hashed_password = Column(String)
     contents = Column(String, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
-
+    authority = Column(SQLEnum(UserRole), default=UserRole.USER)
     # 관계 설정: 공지사항들
     notices = relationship("Notice", back_populates="author")
     # 관계 설정: 제출들
