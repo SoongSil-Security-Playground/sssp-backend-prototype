@@ -5,6 +5,7 @@ from fastapi.responses import FileResponse
 from SSSP.api.models import models
 from SSSP.api.core.database import engine
 from SSSP.config import settings
+import os
 
 # Router
 from SSSP.api.routers.v1.api import router as v1api
@@ -16,6 +17,13 @@ apimain.include_router(v1api, prefix="/api/v1")
 
 # setup favicon
 favicon_path = settings.favicon_path
-@apimain.get('/favicon.ico', include_in_schema=False)
+
+
+@apimain.get("/favicon.ico", include_in_schema=False)
 async def favicon():
+    current_directory = os.getcwd()
+    print("Current Directory:", current_directory)
+
+    for item in os.listdir(current_directory):
+        print(item)
     return FileResponse(favicon_path)
