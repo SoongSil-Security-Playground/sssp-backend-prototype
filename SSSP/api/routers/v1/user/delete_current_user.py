@@ -19,7 +19,7 @@ router = APIRouter()
 def delete_current_user(
     token: str = Depends(settings.oauth2_scheme), db: Session = Depends(get_db)
 ):
-    logging.info(f"[*] DELETE_ROUTER>> Request with {token}")
+    logging.info(f"[*] DELETE_CURRENT_USER>> Request with {token}")
     delete_target_user = auth.get_current_user_by_jwt(token, db)
 
     if not delete_target_user:

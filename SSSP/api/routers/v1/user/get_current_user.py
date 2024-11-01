@@ -17,6 +17,6 @@ router = APIRouter()
 def get_user(
     token: str = Depends(settings.oauth2_scheme), db: Session = Depends(get_db)
 ):
-    find_user = auth.get_current_user_by_jwt(token, db)
-    logging.info(f"[*] GET_USER>> find user {find_user}")
+    find_user_name = auth.get_current_user_by_jwt(token, db)
+    logging.info(f"[*] GET_CURRENT_USER>> find user {find_user_name}")
     return schema_users.UserResponse.from_orm(find_user)
