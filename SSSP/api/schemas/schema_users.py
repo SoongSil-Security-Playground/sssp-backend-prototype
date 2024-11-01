@@ -17,3 +17,10 @@ class UserResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class UserUpdateRequest(BaseModel):
+    contents: Optional[str] = None
+
+    class Config:
+        orm_mode = True
