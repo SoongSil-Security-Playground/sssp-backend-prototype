@@ -15,5 +15,6 @@ router = APIRouter()
 @router.get("/user_list", response_model=list[schema_users.UserResponse])
 def get_user_list(db: Session = Depends(get_db)):
     users = db.query(models.User).all()
-    logging.info(f"[*] USER_LIST>> {users}")
-    return users
+    user_responses = [schema_users.UserResponse.from_orm(user) for user in users]
+    logging.info(f"[*] USER_LIST>> {user_responses}")
+    return user_responses
