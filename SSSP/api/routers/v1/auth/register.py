@@ -5,8 +5,8 @@ from sqlalchemy.orm import Session
 from SSSP.api.models import models
 from SSSP.api.schemas import schema_users
 from SSSP.api.core import auth
-
 from SSSP.api.core.database import *
+
 
 router = APIRouter()
 

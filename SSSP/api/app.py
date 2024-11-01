@@ -1,11 +1,11 @@
 from fastapi import FastAPI
 from fastapi.responses import FileResponse
+import os
 
 # directory dependency
 from SSSP.api.models import models
 from SSSP.api.core.database import engine
 from SSSP.config import settings
-import os
 
 # Router
 from SSSP.api.routers.v1.api import router as v1api

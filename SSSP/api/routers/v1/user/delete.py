@@ -1,13 +1,16 @@
 from fastapi import APIRouter, Depends, HTTPException, status
-import logging
 from sqlalchemy.orm import Session
+import logging
+
+logging.basicConfig(level=logging.INFO)
+
 
 # directory dependency
 from SSSP.api.models import models
 from SSSP.api.core import auth
 from SSSP.config import settings
-
 from SSSP.api.core.database import *
+
 
 router = APIRouter()
 

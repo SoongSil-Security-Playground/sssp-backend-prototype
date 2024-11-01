@@ -5,6 +5,8 @@ from datetime import datetime, timedelta
 from sqlalchemy.orm import Session
 import logging
 
+logging.basicConfig(level=logging.INFO)
+
 # directory dependency
 from SSSP.api.core.database import get_db
 from SSSP.api.models import models
@@ -15,7 +17,6 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 SECRET_KEY = settings.jwt.secret_key
 ALGORITHM = settings.jwt.algorithm
 ACCESS_TOKEN_EXPIRE_MINUTES = settings.jwt.token_expire_minutes
-logging.basicConfig(level=logging.INFO)
 
 
 def verify_password(plain_password, hashed_password):

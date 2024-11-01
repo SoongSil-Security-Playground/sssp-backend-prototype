@@ -1,9 +1,10 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from SSSP.config import settings
 
 # directory dependency
+
+from SSSP.config import settings
 
 DATABASE_FILENAME = settings.database.filename
 DATABASE_STORAGE = settings.database.storage
@@ -16,6 +17,7 @@ engine = create_engine(
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 # Database Utils
+
 
 def get_db():
     db = SessionLocal()

@@ -5,7 +5,6 @@ from fastapi.security import OAuth2PasswordRequestForm
 # directory dependency
 from SSSP.api.models import models
 from SSSP.api.core import auth
-
 from SSSP.api.core.database import *
 
 router = APIRouter()

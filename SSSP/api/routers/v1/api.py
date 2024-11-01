@@ -1,9 +1,11 @@
 from fastapi import APIRouter
 
+# directory dependency
+
 from SSSP.api.routers.v1.auth import register, login, test
 from SSSP.api.routers.v1.default import user_list
-
 from SSSP.api.routers.v1.user import delete
+
 
 router = APIRouter()
 
