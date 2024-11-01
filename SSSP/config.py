@@ -1,4 +1,6 @@
 from pydantic_settings import BaseSettings
+from fastapi.security import OAuth2PasswordBearer
+from typing import ClassVar
 
 
 class Jwt:
@@ -18,6 +20,9 @@ class Settings(BaseSettings):
     favicon_path: str = "./static/favicon.ico"
 
     jwt: Jwt = Jwt()
+    oauth2_scheme: ClassVar[OAuth2PasswordBearer] = OAuth2PasswordBearer(
+        tokenUrl="/api/v1/auth/login"
+    )
     database: Database = Database()
 
 
