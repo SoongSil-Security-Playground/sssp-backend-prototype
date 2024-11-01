@@ -16,11 +16,14 @@ SECRET_KEY = settings.jwt.secret_key
 ALGORITHM = settings.jwt.algorithm
 ACCESS_TOKEN_EXPIRE_MINUTES = settings.jwt.token_expire_minutes
 
+
 def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
 
+
 def get_password_hash(password):
     return pwd_context.hash(password)
+
 
 def create_access_token(data: dict, expires_delta: timedelta = None):
     to_encode = data.copy()
@@ -32,13 +35,19 @@ def create_access_token(data: dict, expires_delta: timedelta = None):
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
 
+
 def get_current_user_by_jwt(token, db: Session = Depends(get_db)):
     try:
         payload = jwt.decode(token.token, SECRET_KEY, algorithms=[ALGORITHM])
         user_id: str = payload.get("sub")
         if user_id is None:
-            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Cannot find uesr id")
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED, detail="Cannot find uesr id"
+            )
     except JWTError:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Could not validate credentials")
-    
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Could not validate credentials",
+        )
+
     return db.query(models.User).filter(models.User.id == user_id).first()
