@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.responses import FileResponse
+
 import os
 
 # directory dependency
@@ -23,11 +24,6 @@ favicon_path = settings.favicon_path
 
 @apimain.get("/favicon.ico", include_in_schema=False)
 async def favicon():
-    current_directory = os.getcwd()
-    print("Current Directory:", current_directory)
-
-    for item in os.listdir(current_directory):
-        print(item)
     return FileResponse(favicon_path)
 
 

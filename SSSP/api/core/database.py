@@ -6,17 +6,9 @@ from sqlalchemy.orm import sessionmaker
 
 from SSSP.config import settings
 
-DATABASE_FILENAME = settings.database.filename
-DATABASE_STORAGE = settings.database.storage
-SQLALCHEMY_DATABASE_URL = settings.database.sqlite_url
-
-engine = create_engine(
-    SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
-)
+engine = create_engine(settings.database.DATABASE_URL, pool_pre_ping=True)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
-# Database Utils
 
 
 def get_db():

@@ -11,7 +11,8 @@ COPY . .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # FastAPI가 사용할 포트 설정
-EXPOSE 8000
+EXPOSE 443
 
 # FastAPI 앱 실행
-CMD ["uvicorn", "SSSP.api.app:apimain", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+CMD ["uvicorn", "SSSP.api.app:apimain", "--host", "0.0.0.0", "--port", "443", "--ssl-keyfile", "/etc/letsencrypt/live/sssp.live/privkey.pem", "--ssl-certfile", "/etc/letsencrypt/live/sssp.live/fullchain.pem"]
+

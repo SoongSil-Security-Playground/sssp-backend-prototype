@@ -5,22 +5,35 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8000:8000"
+      - "443:443"
+    environment:
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_DB: ${MYSQL_DB}
+      MYSQL_PORT: ${MYSQL_PORT}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      JWT_ALGORITHM: ${JWT_ALGORITHM}
+      JWT_TOKEN_EXPIRE_MINUTES: ${JWT_TOKEN_EXPIRE_MINUTES}
+    env_file:
+      - .env
     volumes:
       - .:/app
-    environment:
-      - HOST=0.0.0.0
-      - PORT=8000
-    depends_on:
-      - db  # 데이터베이스가 필요한 경우 정의
-    
-  # 예시: PostgreSQL 데이터베이스 추가
-  db:
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+
+
+  sssp-database:
+    image: mysql:8.0
     container_name: sssp-database
-    image: postgres:13
-    environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: app_db
     ports:
-      - "5432:5432"
+      - "3306:3306"
+    environment:
+      MYSQL_USER: sssp
+      MYSQL_ROOT_PASSWORD: sssppassword
+      MYSQL_DATABASE: sssp_database
+      MYSQL_PASSWORD: sssppassword
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:

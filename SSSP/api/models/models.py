@@ -16,10 +16,10 @@ class User(Base):
 
     __tablename__ = "users"
     id = Column(Integer, primary_key=True, index=True)
-    username = Column(String, unique=True, index=True)
-    email = Column(String, unique=True, index=True)
-    hashed_password = Column(String)
-    contents = Column(String, nullable=True)
+    username = Column(String(150), unique=True, index=True)  # 길이 지정
+    email = Column(String(255), unique=True, index=True)  # 길이 지정
+    hashed_password = Column(String(255))  # 길이 지정
+    contents = Column(String(500), nullable=True)  # 길이 지정
     created_at = Column(DateTime, default=datetime.utcnow)
     authority = Column(SQLEnum(UserRole), default=UserRole.USER)
     # 관계 설정: 공지사항들
@@ -33,7 +33,7 @@ class Category(Base):
     # 기본 키
     id = Column(Integer, primary_key=True, index=True)
     # 카테고리 이름
-    name = Column(String, unique=True, nullable=False)
+    name = Column(String(100), unique=True, nullable=False)  # 길이 지정
     # 생성 일자
     created_at = Column(DateTime, default=datetime.utcnow)
 
@@ -46,7 +46,7 @@ class Challenge(Base):
     # 기본 키
     id = Column(Integer, primary_key=True, index=True)
     # 문제 이름
-    name = Column(String, nullable=False)
+    name = Column(String(255), nullable=False)  # 길이 지정
     # 문제 설명
     description = Column(Text, nullable=False)
     # 배점
@@ -69,7 +69,7 @@ class Attachment(Base):
     # 기본 키
     id = Column(Integer, primary_key=True, index=True)
     # 파일 경로 또는 URL
-    file_path = Column(String, nullable=False)
+    file_path = Column(String(255), nullable=False)  # 길이 지정
     # 생성 일자
     created_at = Column(DateTime, default=datetime.utcnow)
 
@@ -84,7 +84,7 @@ class Submission(Base):
     # 기본 키
     id = Column(Integer, primary_key=True, index=True)
     # 제출한 플래그
-    submitted_flag = Column(String, nullable=False)
+    submitted_flag = Column(String(255), nullable=False)  # 길이 지정
     # 정답 여부
     is_correct = Column(Boolean, default=False)
     # 생성 일자
@@ -105,7 +105,7 @@ class Notice(Base):
     # 기본 키
     id = Column(Integer, primary_key=True, index=True)
     # 제목
-    title = Column(String, nullable=False)
+    title = Column(String(255), nullable=False)  # 길이 지정
     # 내용
     content = Column(Text, nullable=False)
     # 생성 일자
