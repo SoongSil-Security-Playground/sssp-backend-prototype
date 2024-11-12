@@ -2,7 +2,6 @@ from fastapi import APIRouter
 
 # directory dependency
 
-from SSSP.api.routers.v1 import health_check
 from SSSP.api.routers.v1.auth import auth_check, register, login
 from SSSP.api.routers.v1.user import (
     delete_current_user,
@@ -22,7 +21,6 @@ router = APIRouter()
 router.include_router(login.router, prefix="/auth", tags=["auth"])
 router.include_router(register.router, prefix="/auth", tags=["auth"])
 router.include_router(auth_check.router, prefix="/auth", tags=["auth"])
-router.include_router(health_check.router, tags=["health-check"])
 
 # user
 router.include_router(delete_current_user.router, prefix="/user", tags=["user"])

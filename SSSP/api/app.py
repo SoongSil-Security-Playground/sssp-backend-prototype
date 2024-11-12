@@ -29,3 +29,8 @@ async def favicon():
     for item in os.listdir(current_directory):
         print(item)
     return FileResponse(favicon_path)
+
+
+@apimain.get("/health-check")
+def health_check():
+    return {"status": "healthy"}
