@@ -19,4 +19,4 @@ def get_user(
 ):
     find_user_name = auth.get_current_user_by_jwt(token, db)
     logging.info(f"[*] GET_CURRENT_USER>> find user {find_user_name}")
-    return schema_users.UserResponse.from_orm(find_user)
+    return schema_users.UserResponse.from_orm(find_user_name)
