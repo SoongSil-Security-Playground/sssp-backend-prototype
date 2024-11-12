@@ -14,7 +14,7 @@ from SSSP.api.schemas.schema_users import UserUpdateRequest
 router = APIRouter()
 
 
-@router.patch("/user", response_model=schema_users.UserResponse)
+@router.patch("", response_model=schema_users.UserResponse)
 def update_current_user(
     user_update: UserUpdateRequest,
     token: str = Depends(settings.oauth2_scheme),

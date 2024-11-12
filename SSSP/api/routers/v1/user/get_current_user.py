@@ -13,7 +13,7 @@ from SSSP.api.core.database import *
 router = APIRouter()
 
 
-@router.get("/user", response_model=schema_users.UserResponse)
+@router.get("", response_model=schema_users.UserResponse)
 def get_user(
     token: str = Depends(settings.oauth2_scheme), db: Session = Depends(get_db)
 ):
