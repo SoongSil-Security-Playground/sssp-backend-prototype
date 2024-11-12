@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   fastapi-app:
     container_name: sssp-backend
@@ -20,7 +22,10 @@ services:
     volumes:
       - .:/app
       - /etc/letsencrypt:/etc/letsencrypt:ro
-
+      - ./init:/docker-entrypoint-initdb.d
+    depends_on:
+      sssp-database:
+        condition: service_healthy
 
   sssp-database:
     image: mysql:8.0
@@ -34,6 +39,11 @@ services:
       MYSQL_PASSWORD: sssppassword
     volumes:
       - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 volumes:
   mysql_data:

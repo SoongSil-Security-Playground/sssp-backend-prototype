@@ -11,6 +11,8 @@ from SSSP.api.routers.v1.user import (
 )
 from SSSP.api.routers.v1.challange import (
     get_challenges,
+    create_challenge,
+    delete_challenge,
 )
 
 
@@ -30,3 +32,5 @@ router.include_router(update_current_user.router, prefix="/user", tags=["user"])
 
 # challenge
 router.include_router(get_challenges.router, prefix="/challenges", tags=["challenge"])
+router.include_router(create_challenge.router, prefix="/challenges", tags=["challenge"])
+router.include_router(delete_challenge.router, prefix="/challenges", tags=["challenge"])

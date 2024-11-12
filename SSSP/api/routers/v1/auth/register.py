@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 # directory dependency
@@ -6,7 +6,6 @@ from SSSP.api.models import models
 from SSSP.api.schemas import schema_users
 from SSSP.api.core import auth
 from SSSP.api.core.database import *
-
 
 router = APIRouter()
 
@@ -26,6 +25,7 @@ def register(request: schema_users.UserCreateRequest, db: Session = Depends(get_
         email=request.email,
         hashed_password=hashed_password,
         contents=request.contents,
+        authority=request.authority,
     )
     db.add(new_user)
     db.commit()
