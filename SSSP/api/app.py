@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.responses import FileResponse
+from fastapi.middleware.cors import CORSMiddleware
 
 import os
 
@@ -14,9 +15,20 @@ from SSSP.api.routers.v1.api import router as v1api
 
 models.Base.metadata.create_all(bind=engine)
 
+
 apimain = FastAPI()
 apimain.include_router(v1api, prefix="/api/v1")
 apimain.add_exception_handler(Exception, global_exception_handler)
+
+# CORS
+origins = ["http://localhost:3000"]
+apimain.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # setup favicon
 favicon_path = settings.favicon_path
