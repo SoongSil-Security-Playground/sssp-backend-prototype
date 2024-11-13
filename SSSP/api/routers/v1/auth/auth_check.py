@@ -8,6 +8,7 @@ logging.basicConfig(level=logging.INFO)
 
 # directory dependency
 from SSSP.api.models import models
+from SSSP.api.schemas import schema_users
 from SSSP.api.core import auth
 from SSSP.api.core.database import *
 from SSSP.config import settings
@@ -22,4 +23,4 @@ def auth_check(
     logging.info(f"[*] TOKEN: {token}")
     get_user = auth.get_current_user_by_jwt(token, db)
     logging.info(f"[*] userinfo {get_user}")
-    return "AUTHENTICATED USER"
+    return {"authority": get_user.authority}
