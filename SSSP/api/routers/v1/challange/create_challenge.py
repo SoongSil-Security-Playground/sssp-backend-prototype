@@ -39,7 +39,7 @@ def create_challenge(
     try:
         file_key = f"challenges/{file.filename}"
         s3_client.put_object(
-            Bucket="sssp-s3-bucket",
+            Bucket=s3.S3_BUCKET_NAME,
             Key=file_key,
             Body=file.file,
             ContentType=file.content_type,

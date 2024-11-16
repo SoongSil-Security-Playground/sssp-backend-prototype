@@ -14,15 +14,8 @@ class ChallengeBase(BaseModel):
     category: ChallengeCategory
 
 
-class ChallengeCreate(ChallengeBase):
-    pass
-
-
-class ChallengeUpdate(BaseModel):
-    name: Optional[str] = Field(None, max_length=255)
-    description: Optional[str]
-    points: Optional[int]
-    category: Optional[ChallengeCategory]
+class ChallengeUpdate(ChallengeBase):
+    file_path: Optional[str] = None
 
 
 class ChallengeResponse(ChallengeBase):

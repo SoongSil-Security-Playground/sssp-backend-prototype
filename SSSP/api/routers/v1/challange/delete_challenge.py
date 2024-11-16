@@ -1,13 +1,14 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
+import logging
 
 # directory dependency
 from SSSP.api.models.enums.user_role import UserRole
 from SSSP.api.models import models
 from SSSP.api.core.database import get_db
-from SSSP.config import settings
+from SSSP.config import settings, s3
+from SSSP.util.s3_client import s3_client
 from SSSP.api.core.auth import get_current_user_by_jwt
-import logging
 
 logging.basicConfig(level=logging.INFO)
 
@@ -37,6 +38,20 @@ def delete_challenge(
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Challenge not found"
         )
+
+    if challenge.file_path:
+        try:
+            file_key = challenge.file_path.split(
+                f"https://{s3.S3_BUCKET_NAME}.s3.amazonaws.com/"
+            )[-1]
+            s3_client.delete_object(Bucket=s3.S3_BUCKET_NAME, Key=file_key)
+            logging.info(f"Deleted file from S3: {file_key}")
+        except Exception as e:
+            logging.error(f"Failed to delete file from S3: {e}")
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Failed to delete associated file from S3",
+            )
 
     db.delete(challenge)
     db.commit()
