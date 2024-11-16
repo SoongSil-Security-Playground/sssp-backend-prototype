@@ -25,6 +25,14 @@ class Database:
         self.DATABASE_URL = f"mysql+pymysql://{self.MYSQL_USER}:{self.MYSQL_PASSWORD}@{self.MYSQL_HOST}:{self.MYSQL_PORT}/{self.MYSQL_DB}"
 
 
+class S3:
+    def __init__(self):
+        self.AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
+        self.AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
+        self.AWS_REGION = os.getenv("AWS_REGION")
+        self.S3_BUCKET_NAME = os.getenv("S3_BUCKET_NAME")
+
+
 class Settings(BaseSettings):
     app_name: str = "Soongsil Security Playground"
     favicon_path: str = "./SSSP/static/favicon.ico"
@@ -36,4 +44,5 @@ class Settings(BaseSettings):
     database: Database = Database()
 
 
+s3 = S3()
 settings = Settings()

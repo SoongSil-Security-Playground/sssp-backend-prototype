@@ -1,6 +1,8 @@
 import traceback, logging
 from fastapi import Request, status
 from fastapi.responses import JSONResponse
+from fastapi.exceptions import RequestValidationError
+
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -16,5 +18,19 @@ async def global_exception_handler(request: Request, exc: Exception):
         content={
             "error_name": "Internal Server Error",
             "error_message": error_details,
+        },
+    )
+
+
+async def validation_exception_handler(request: Request, exc: RequestValidationError):
+    logging.error(
+        f"[*] ValidationExceptionHandler>> Validation error: {exc} for Request {request.url}"
+    )
+    return JSONResponse(
+        status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+        content={
+            "error_name": "Validation Error",
+            "details": exc.errors(),
+            "body": exc.body,
         },
     )

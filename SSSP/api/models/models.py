@@ -38,20 +38,9 @@ class Challenge(Base):
     points = Column(Integer, nullable=False)
     created_at = Column(DateTime, default=NOW)
     category = Column(SQLEnum(ChallengeCategory), nullable=False)
+    file_path = Column(String(255))
 
-    attachments = relationship("Attachment", back_populates="challenge")
     submissions = relationship("Submission", back_populates="challenge")
-
-
-class Attachment(Base):
-    __tablename__ = "attachments"
-    id = Column(Integer, primary_key=True, index=True)
-    file_path = Column(String(255), nullable=False)
-    created_at = Column(DateTime, default=NOW)
-
-    challenge_id = Column(Integer, ForeignKey("challenges.id"), nullable=False)
-
-    challenge = relationship("Challenge", back_populates="attachments")
 
 
 class Submission(Base):
