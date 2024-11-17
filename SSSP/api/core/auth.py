@@ -42,6 +42,11 @@ def get_current_user_by_jwt(token, db: Session = Depends(get_db)):
     username = verify_token(token)
     if username:
         return db.query(models.User).filter(models.User.username == username).first()
+    
+    raise HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid Token"
+    )
+
 
 
 def verify_token(token: str):

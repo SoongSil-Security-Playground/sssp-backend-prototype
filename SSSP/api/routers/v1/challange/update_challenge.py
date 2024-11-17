@@ -23,6 +23,7 @@ def update_challenge(
     points: int = Form(None),
     category: str = Form(None),
     file: UploadFile = File(None),
+    flag: str = Form(None),
     token: str = Depends(settings.oauth2_scheme),
     db: Session = Depends(get_db),
 ):
@@ -52,6 +53,8 @@ def update_challenge(
         challenge.points = points
     if category is not None:
         challenge.category = category
+    if flag is not None:
+        challenge.flag = flag
 
     if file:
         try:

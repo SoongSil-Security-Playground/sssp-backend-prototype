@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Boolean, Text
+from sqlalchemy import Column, Integer, Float, String, ForeignKey, DateTime, Boolean, Text, JSON
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy import Enum as SQLEnum
@@ -19,29 +19,44 @@ class User(Base):
 
     __tablename__ = "users"
     id = Column(Integer, primary_key=True, index=True)
-    username = Column(String(150), unique=True, index=True)  # 길이 지정
-    email = Column(String(255), unique=True, index=True)  # 길이 지정
-    hashed_password = Column(String(255))  # 길이 지정
-    contents = Column(String(500), nullable=True)  # 길이 지정
+    username = Column(String(150), unique=True, index=True)
+    email = Column(String(255), unique=True, index=True)
+    hashed_password = Column(String(255))
+    contents = Column(String(500), nullable=True)
     created_at = Column(DateTime, default=NOW)
     authority = Column(SQLEnum(UserRole), default=UserRole.USER)
 
+    total_score = Column(Float, default=0.0)
+    rank = Column(Integer, nullable=True)
+    solved_challenge = Column(JSON, default=list)
+
+    # admin 이라면 notices 관리하니까 
     notices = relationship("Notice", back_populates="author")
     submissions = relationship("Submission", back_populates="user")
-
 
 class Challenge(Base):
     __tablename__ = "challenges"
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(255), nullable=False)
+    flag = Column(String(255), nullable=False)
     description = Column(Text, nullable=False)
-    points = Column(Integer, nullable=False)
     created_at = Column(DateTime, default=NOW)
     category = Column(SQLEnum(ChallengeCategory), nullable=False)
     file_path = Column(String(255))
 
-    submissions = relationship("Submission", back_populates="challenge")
+    # Dynamic Scoring 적용했을 때 initial_point에서 minimum_point 까지 decay 적용하여 current point를 계산
+    
+    # 기본 처리 공식
+    # value = (((minimum - initial) / (decay ** 2)) * (solve_count ** 2)) + initial
+    # value = math.ceil(value)
 
+    # initial_points = Column(Integer, nullable=False)
+    # minimum_points = Column(Integer, nullable=False)
+    points = Column(Integer, nullable=False)    # Static Scoring 점수
+
+    solve_count = Column(Integer, default=0)
+
+    submissions = relationship("Submission", back_populates="challenge")
 
 class Submission(Base):
     __tablename__ = "submissions"
@@ -49,7 +64,10 @@ class Submission(Base):
     submitted_flag = Column(String(255), nullable=False)
     is_correct = Column(Boolean, default=False)
     created_at = Column(DateTime, default=NOW)
-
+    comment = Column(String(255), nullable=False)
+    
+    # Dynamic Scoring 적용했을 때, 해당 필드 켜서 각 제출에 대한 점수 계산 ( + 로깅 )
+    # points_earned = Column(Float, nullable=True) 
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     challenge_id = Column(Integer, ForeignKey("challenges.id"), nullable=False)
 

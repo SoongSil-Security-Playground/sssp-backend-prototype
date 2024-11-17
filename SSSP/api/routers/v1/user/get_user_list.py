@@ -10,9 +10,7 @@ from SSSP.api.schemas import schema_users
 from SSSP.api.core.database import *
 from SSSP.api.core.auth import get_current_user_by_jwt
 
-
 router = APIRouter()
-
 
 @router.get("/user_list", response_model=list[schema_users.UserResponse])
 def get_user_list(

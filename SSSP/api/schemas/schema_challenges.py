@@ -13,10 +13,8 @@ class ChallengeBase(BaseModel):
     points: int
     category: ChallengeCategory
 
-
 class ChallengeUpdate(ChallengeBase):
     file_path: Optional[str] = None
-
 
 class ChallengeResponse(ChallengeBase):
     id: int

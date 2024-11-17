@@ -12,6 +12,7 @@ logging.basicConfig(level=logging.DEBUG)
 async def sqlalchemy_data_error_handler(request: Request, exc: DataError):
     logging.error(f"[*] DataError>> {exc} for Request {request.url}")
     error_details = traceback.format_exc()
+    logging.debug(str(exc.orig))
     return JSONResponse(
         status_code=status.HTTP_400_BAD_REQUEST,
         content={

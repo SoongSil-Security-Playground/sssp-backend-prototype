@@ -17,6 +17,10 @@ from SSSP.api.exception.global_exception_handler import (
     sqlalchemy_integrity_error_handler,
 )
 
+# for testing
+from sqlalchemy.orm import Session
+from SSSP.api.core.database import get_db
+
 # Router
 from SSSP.api.routers.v1.api import router as v1api
 
@@ -57,3 +61,35 @@ def health_check():
 @apimain.get("/")
 def root():
     return {"Hello": "SSSP"}
+
+
+
+# for testing
+try:
+    from SSSP.api.models.models import User
+    from SSSP.api.core.auth import get_password_hash
+
+    new_user = User(
+        username='user',
+        email='user@example.com',
+        hashed_password=get_password_hash("user"),
+        contents="hihi",
+        authority="USER"
+    )
+
+    new_admin = User(
+        username='admin',
+        email='admin@example.com',
+        hashed_password=get_password_hash("admin"),
+        contents="hihi",
+        authority="ADMIN"
+    )
+
+    db:Session = next(get_db())
+    db.add(new_user)
+    db.add(new_admin)
+    db.commit()
+    db.refresh(new_user)
+    db.refresh(new_admin)
+except:
+    pass

@@ -1,7 +1,6 @@
 from pydantic import BaseModel, EmailStr
 from typing import Optional
 
-
 class UserCreateRequest(BaseModel):
     username: str
     email: EmailStr

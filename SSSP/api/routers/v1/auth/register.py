@@ -9,7 +9,6 @@ from SSSP.api.core.database import *
 
 router = APIRouter()
 
-
 @router.post("/register", response_model=schema_users.UserResponse)
 def register(request: schema_users.UserCreateRequest, db: Session = Depends(get_db)):
     user_in_db = (
