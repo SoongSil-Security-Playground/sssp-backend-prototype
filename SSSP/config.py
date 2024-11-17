@@ -26,8 +26,8 @@ class Database:
 
 class InitialAdmin:
     def __init__(self):
-        self.INITIAL_ADMIN_ID = os.getenv("INITIAL_ADMIN_ID", 'admin')
-        self.INITIAL_ADMIN_PW = os.getenv("INITIAL_ADMIN_PW", 'admin')
+        self.INITIAL_ADMIN_ID = os.getenv("INITIAL_ADMIN_ID")
+        self.INITIAL_ADMIN_PW = os.getenv("INITIAL_ADMIN_PW")
 
 class S3:
     def __init__(self):
