@@ -3,10 +3,12 @@ from fastapi import APIRouter
 # directory dependency
 
 from SSSP.api.routers.v1.auth import (
-    auth_check, 
-    register, 
+    auth_check,
+    register,
     login,
     logout,
+    send_auth_code,
+    verify_auth_code,
 )
 
 from SSSP.api.routers.v1.user import (
@@ -42,6 +44,8 @@ router.include_router(login.router, prefix="/auth", tags=["auth"])
 router.include_router(logout.router, prefix="/auth", tags=["auth"])
 router.include_router(register.router, prefix="/auth", tags=["auth"])
 router.include_router(auth_check.router, prefix="/auth", tags=["auth"])
+router.include_router(send_auth_code.router, prefix="/auth", tags=["auth"])
+router.include_router(verify_auth_code.router, prefix="/auth", tags=["auth"])
 
 # user
 router.include_router(delete_current_user.router, prefix="/user", tags=["user"])

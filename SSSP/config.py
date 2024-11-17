@@ -3,6 +3,7 @@ from fastapi.security import OAuth2PasswordBearer
 from typing import ClassVar
 from datetime import datetime
 from zoneinfo import ZoneInfo
+from pydantic import Field
 
 import os
 
@@ -24,10 +25,12 @@ class Database:
         self.MYSQL_PORT = os.getenv("MYSQL_PORT", "3306")
         self.DATABASE_URL = f"mysql+pymysql://{self.MYSQL_USER}:{self.MYSQL_PASSWORD}@{self.MYSQL_HOST}:{self.MYSQL_PORT}/{self.MYSQL_DB}"
 
+
 class InitialAdmin:
     def __init__(self):
         self.INITIAL_ADMIN_ID = os.getenv("INITIAL_ADMIN_ID")
         self.INITIAL_ADMIN_PW = os.getenv("INITIAL_ADMIN_PW")
+
 
 class S3:
     def __init__(self):
@@ -35,6 +38,22 @@ class S3:
         self.AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
         self.AWS_REGION = os.getenv("AWS_REGION")
         self.S3_BUCKET_NAME = os.getenv("S3_BUCKET_NAME")
+
+
+class RedisSettings(BaseSettings):
+    REDIS_HOST: str = os.getenv("REDIS_HOST")
+    REDIS_PORT: int = os.getenv("REDIS_PORT")
+
+
+class EmailSettings(BaseSettings):
+    sender_email: str = Field(default=None)
+    sender_password: str = Field(default=None)
+
+    model_config = {
+        "env_file": ".env",
+        "env_file_encoding": "utf-8",
+        "extra": "allow",
+    }
 
 
 class Settings(BaseSettings):
@@ -47,7 +66,18 @@ class Settings(BaseSettings):
     )
     database: Database = Database()
     initial_account: InitialAdmin = InitialAdmin()
+    s3: S3 = S3()
+    redis: RedisSettings = RedisSettings()
+    email: EmailSettings = EmailSettings(
+        sender_email=os.getenv("GOOGLE_EMAIL"),
+        sender_password=os.getenv("GOOGLE_EMAIL_SECRET"),
+    )
 
+    model_config = {
+        "env_file": ".env",
+        "env_file_encoding": "utf-8",
+        "extra": "allow",
+    }
 
 
 s3 = S3()
