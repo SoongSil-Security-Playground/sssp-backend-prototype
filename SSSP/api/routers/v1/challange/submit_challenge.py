@@ -58,8 +58,20 @@ def submit_challenge(
         else:
             comment = "Wrong Flag!"
 
-    # User Commit
     if comment == "Correct!":
+        # Challenge Commit for dynamic 
+        if challenge.is_dynamic == True:
+            minimum = challenge.minimum_points
+            initial = challenge.initial_points
+            decay   = challenge.decay
+            solve_count = challenge.solve_count
+
+            new_point = (((minimum - initial) / (decay ** 2)) * (solve_count ** 2)) + initial
+            logging.info("New Dynamic Point! : " + str(new_point))
+            challenge.points = new_point
+        challenge.solve_count = challenge.solve_count + 1
+
+        # User Commit
         user.solved_challenge = user.solved_challenge + [challenge_id]
         user.total_score = user.total_score + challenge.points
 
@@ -73,7 +85,7 @@ def submit_challenge(
     logging.info("User      Flag : " + flag)
 
     new_submit = models.Submission(
-        submitted_flag = challenge,
+        submitted_flag = challenge.flag,
         is_correct = is_correct,
         comment=comment,
         user_id = user.id,
@@ -86,5 +98,6 @@ def submit_challenge(
     db.commit()
     db.refresh(user)
     db.refresh(new_submit)
+    db.refresh(challenge)
 
     return {'detail': comment}

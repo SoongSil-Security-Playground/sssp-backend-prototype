@@ -43,6 +43,7 @@ class Challenge(Base):
     created_at = Column(DateTime, default=NOW)
     category = Column(SQLEnum(ChallengeCategory), nullable=False)
     file_path = Column(String(255))
+    points = Column(Integer, nullable=False)
 
     # Dynamic Scoring 적용했을 때 initial_point에서 minimum_point 까지 decay 적용하여 current point를 계산
     
@@ -50,9 +51,10 @@ class Challenge(Base):
     # value = (((minimum - initial) / (decay ** 2)) * (solve_count ** 2)) + initial
     # value = math.ceil(value)
 
-    # initial_points = Column(Integer, nullable=False)
-    # minimum_points = Column(Integer, nullable=False)
-    points = Column(Integer, nullable=False)    # Static Scoring 점수
+    initial_points = Column(Integer, nullable=False)
+    minimum_points = Column(Integer, nullable=False)
+    decay = Column(Integer, nullable=False, default=100)
+    is_dynamic = Column(Boolean, nullable=False)
 
     solve_count = Column(Integer, default=0)
 

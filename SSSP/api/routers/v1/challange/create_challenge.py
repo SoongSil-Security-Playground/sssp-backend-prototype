@@ -27,6 +27,9 @@ def create_challenge(
     category: str = Form(...),
     file: Optional[UploadFile] = File(None),
     flag: str = Form(...),
+    decay: int = Form(None),
+    minimum_point: Optional[int] = Form(None),
+    is_dynamic: Optional[bool] = Form(None),
     token: str = Depends(settings.oauth2_scheme),
     db: Session = Depends(get_db),
 ):
@@ -38,6 +41,8 @@ def create_challenge(
             detail="Not authorized to create challenges",
         )
 
+    # S3 bucket generator for attachment
+    download_url = None
     if file is not None:
         try:
             file_key = f"challenges/{file.filename}"
@@ -60,7 +65,6 @@ def create_challenge(
         # if file is not required.
         download_url = None
 
-
     db_challenge = models.Challenge(
         name=name,
         description=description,
@@ -68,6 +72,11 @@ def create_challenge(
         category=category,
         file_path=download_url,
         flag=flag,
+
+        decay=decay,
+        initial_points=points,
+        minimum_points=minimum_point,
+        is_dynamic=is_dynamic,
     )
     db.add(db_challenge)
     db.commit()

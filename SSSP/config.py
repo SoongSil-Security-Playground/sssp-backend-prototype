@@ -24,6 +24,10 @@ class Database:
         self.MYSQL_PORT = os.getenv("MYSQL_PORT", "3306")
         self.DATABASE_URL = f"mysql+pymysql://{self.MYSQL_USER}:{self.MYSQL_PASSWORD}@{self.MYSQL_HOST}:{self.MYSQL_PORT}/{self.MYSQL_DB}"
 
+class InitialAdmin:
+    def __init__(self):
+        self.INITIAL_ADMIN_ID = os.getenv("INITIAL_ADMIN_ID", 'admin')
+        self.INITIAL_ADMIN_PW = os.getenv("INITIAL_ADMIN_PW", 'admin')
 
 class S3:
     def __init__(self):
@@ -42,6 +46,8 @@ class Settings(BaseSettings):
         tokenUrl="/api/v1/auth/login"
     )
     database: Database = Database()
+    initial_account: InitialAdmin = InitialAdmin()
+
 
 
 s3 = S3()
