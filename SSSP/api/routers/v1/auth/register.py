@@ -25,9 +25,6 @@ def register(request: schema_users.UserCreateRequest, db: Session = Depends(get_
         email=request.email,
         hashed_password=hashed_password,
         contents=request.contents,
-        total_score=0,
-        rank=0,
-        solved_challenge=0,
     )
     db.add(new_user)
     db.commit()
