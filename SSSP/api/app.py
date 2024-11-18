@@ -25,8 +25,10 @@ from SSSP.api.models.models import User, Challenge
 from SSSP.api.core.database import get_db
 from SSSP.api.core.auth import get_password_hash
 
-models.Base.metadata.create_all(bind=engine)
+import time
+import logging
 
+logging.basicConfig(level=logging.INFO)
 
 apimain = FastAPI()
 apimain.include_router(v1api, prefix="/api/v1")
@@ -65,7 +67,24 @@ def root():
 
 @apimain.on_event("startup")
 async def server_start():
+    logging.info("Service Startup Process")
+    db_init = False
+    for i in range(5, -1, -1):
+        try:
+            models.Base.metadata.create_all(bind=engine)
+            db_init = True
+            break
+        except:
+            logging.warn("DB connection failed, retrying...")
+            time.sleep(5)
+    
+    if not db_init:
+        logging.error("Failed to initialize db")
+        exit()
+
+    logging.info("DB Connection success")
     try:
+        
         new_user = User(
             username='user',
             email='user@example.com',
@@ -106,3 +125,5 @@ async def server_start():
         db.refresh(new_admin)
     except:
         pass
+
+    logging.info("Server Setup Finish")
