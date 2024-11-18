@@ -9,6 +9,7 @@ from SSSP.api.core.database import *
 
 router = APIRouter()
 
+
 @router.post("/register", response_model=schema_users.UserResponse)
 def register(request: schema_users.UserCreateRequest, db: Session = Depends(get_db)):
     user_in_db = (
@@ -24,6 +25,9 @@ def register(request: schema_users.UserCreateRequest, db: Session = Depends(get_
         email=request.email,
         hashed_password=hashed_password,
         contents=request.contents,
+        total_score=0,
+        rank=0,
+        solved_challenge=0,
     )
     db.add(new_user)
     db.commit()
