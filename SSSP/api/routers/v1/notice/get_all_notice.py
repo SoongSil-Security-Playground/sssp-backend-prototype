@@ -1,4 +1,3 @@
-from fastapi import APIRouter
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
@@ -14,7 +13,7 @@ logging.basicConfig(level=logging.INFO)
 router = APIRouter()
 
 @router.get("/notice", response_model=list[schema_notice.NoticeResponse])
-def get_all_score(
+def get_all_notice(
     token: str = Depends(settings.oauth2_scheme), db: Session = Depends(get_db)
 ):
     user = get_current_user_by_jwt(token, db)

@@ -1,7 +1,7 @@
 from fastapi import HTTPException, status, Depends
 from passlib.context import CryptContext
 from jose import jwt, JWTError
-from datetime import datetime, timedelta, timezone
+from datetime import timedelta
 from sqlalchemy.orm import Session
 import logging
 import smtplib
@@ -53,6 +53,7 @@ def get_current_user_by_jwt(token, db: Session = Depends(get_db)):
 
 def verify_token(token: str):
     try:
+        logging.debug(token)
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         logging.info(f"[*] AUTH>> Decoded payload: {payload}")
         username: str = payload.get("sub")

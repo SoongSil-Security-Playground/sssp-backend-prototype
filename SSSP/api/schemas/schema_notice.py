@@ -1,8 +1,8 @@
 from pydantic import BaseModel
 
 class NoticeResponse(BaseModel):
-    username: str
-    total_score: int
+    title: str
+    content: str
 
     class Config:
         from_attributes=True

@@ -123,7 +123,7 @@ async def server_start():
         db.refresh(new_chall)
         db.refresh(new_user)
         db.refresh(new_admin)
-    except:
-        pass
+    except Exception as e:
+        logging.warn(e)
 
     logging.info("Server Setup Finish")

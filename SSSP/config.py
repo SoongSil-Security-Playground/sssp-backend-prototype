@@ -28,8 +28,8 @@ class Database:
 
 class InitialAdmin:
     def __init__(self):
-        self.INITIAL_ADMIN_ID = os.getenv("INITIAL_ADMIN_ID")
-        self.INITIAL_ADMIN_PW = os.getenv("INITIAL_ADMIN_PW")
+        self.INITIAL_ADMIN_ID = os.getenv("INITIAL_ADMIN_ID", 'admin')
+        self.INITIAL_ADMIN_PW = os.getenv("INITIAL_ADMIN_PW", 'admin')
 
 
 class S3:
@@ -41,8 +41,8 @@ class S3:
 
 
 class RedisSettings(BaseSettings):
-    REDIS_HOST: str = os.getenv("REDIS_HOST")
-    REDIS_PORT: int = os.getenv("REDIS_PORT")
+    REDIS_HOST: str = os.getenv("REDIS_HOST", "sssp_redis")
+    REDIS_PORT: int = os.getenv("REDIS_PORT", "6379")
 
 
 class EmailSettings(BaseSettings):
@@ -69,8 +69,8 @@ class Settings(BaseSettings):
     s3: S3 = S3()
     redis: RedisSettings = RedisSettings()
     email: EmailSettings = EmailSettings(
-        sender_email=os.getenv("GOOGLE_EMAIL"),
-        sender_password=os.getenv("GOOGLE_EMAIL_SECRET"),
+        sender_email=os.getenv("GOOGLE_EMAIL", "a"),
+        sender_password=os.getenv("GOOGLE_EMAIL_SECRET", 'b'),
     )
 
     model_config = {
