@@ -22,7 +22,7 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 SECRET_KEY = settings.jwt.secret_key
 ALGORITHM = settings.jwt.algorithm
-ACCESS_TOKEN_EXPIRE_MINUTES = settings.jwt.token_expire_minutes
+ACCESS_TOKEN_EXPIRE_MINUTES = int(settings.jwt.token_expire_minutes)
 
 
 def verify_password(plain_password, hashed_password):
