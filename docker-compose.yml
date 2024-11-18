@@ -26,6 +26,8 @@ services:
       - /etc/letsencrypt:/etc/letsencrypt:ro
       - ./init:/docker-entrypoint-initdb.d
     depends_on:
+      redis:
+        condition: service_healthy
       sssp-database:
         condition: service_healthy
     networks:
