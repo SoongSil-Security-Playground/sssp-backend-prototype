@@ -20,6 +20,7 @@ class ChallengeResponse(ChallengeBase):
     id: int
     created_at: datetime
     file_path: Optional[str] = None
-
+    category: str
+    
     class Config:
         from_attributes = True
