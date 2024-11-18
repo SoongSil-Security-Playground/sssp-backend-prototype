@@ -26,7 +26,9 @@ def register(request: schema_users.UserCreateRequest, db: Session = Depends(get_
         hashed_password=hashed_password,
         contents="",
     )
+    
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
-    return new_user
+    
+    return schema_users.UserResponse.from_orm(new_user)

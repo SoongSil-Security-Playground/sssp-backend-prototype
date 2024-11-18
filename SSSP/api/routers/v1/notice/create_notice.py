@@ -16,7 +16,7 @@ logging.basicConfig(level=logging.INFO)
 
 router = APIRouter()
 
-@router.post("/notice")
+@router.post("/notice", response_model=schema_notice.NoticeResponse)
 def create_notice(
     title: str = Form(...),
     content: str = Form(...),
@@ -44,4 +44,4 @@ def create_notice(
     logging.info(f"= Title : {title}")
     logging.info(f"= Content : {content}")
 
-    return {'detail':new_notice.id}
+    return schema_notice.NoticeResponse(new_notice)

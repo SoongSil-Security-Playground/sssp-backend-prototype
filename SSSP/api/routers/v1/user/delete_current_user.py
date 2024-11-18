@@ -28,4 +28,4 @@ def delete_current_user(
     db.delete(delete_target_user)
     db.commit()
 
-    return {"message": "User deleted successfully"}
+    return {}
