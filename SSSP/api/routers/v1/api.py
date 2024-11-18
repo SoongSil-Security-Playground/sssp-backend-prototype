@@ -33,6 +33,7 @@ from SSSP.api.routers.v1.score import (
 from SSSP.api.routers.v1.notice import (
     get_all_notice,
     create_notice,
+    update_notice,
 )
 
 router = APIRouter()
@@ -67,6 +68,7 @@ router.include_router(submit_challenge.router, prefix="/challenges", tags=["chal
 # admin
 ## notice
 router.include_router(create_notice.router, prefix="/admin", tags=["notice"])
+router.include_router(update_notice.router, prefix="/admin", tags=["notice"])
 
 ## User
 

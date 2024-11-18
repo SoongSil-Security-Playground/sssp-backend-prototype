@@ -4,6 +4,8 @@ from sqlalchemy.orm import Session
 
 # directory dependency
 from SSSP.api.models import models
+from SSSP.api.models.enums.user_role import UserRole
+
 from SSSP.api.schemas import schema_score
 from SSSP.api.core.database import *
 from SSSP.api.core.auth import get_current_user_by_jwt
@@ -20,7 +22,13 @@ def get_all_score(
     user = get_current_user_by_jwt(token, db)
 
     users = db.query(models.User).all()
-    user_responses = [schema_score.ScoreResponse.from_orm(user) for user in users]
+    user_responses = []
+    for user in users:
+        if user.authority == UserRole.ADMIN:
+            continue
+
+        user_responses.append(schema_score.ScoreResponse.from_orm(user))
+        
     logging.info(f"[*] Score List >> {user_responses}")
 
     return user_responses
