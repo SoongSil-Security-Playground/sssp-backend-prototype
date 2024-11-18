@@ -41,6 +41,8 @@ def get_challenge(
     db: Session = Depends(get_db),
 ):
     user = get_current_user_by_jwt(token, db)
+    # admin 이면 전체
+    # User 면 response 에 solved challenge 포함해서 전달
 
     challenge = (
         db.query(models.Challenge).filter(models.Challenge.id == challenge_id).first()

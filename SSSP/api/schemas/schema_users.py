@@ -5,7 +5,6 @@ class UserCreateRequest(BaseModel):
     username: str
     email: EmailStr
     password: str
-    contents: str
 
 
 class UserResponse(BaseModel):

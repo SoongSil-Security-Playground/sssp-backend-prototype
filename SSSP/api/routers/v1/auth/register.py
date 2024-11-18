@@ -24,7 +24,7 @@ def register(request: schema_users.UserCreateRequest, db: Session = Depends(get_
         username=request.username,
         email=request.email,
         hashed_password=hashed_password,
-        contents=request.contents,
+        contents="",
     )
     db.add(new_user)
     db.commit()
