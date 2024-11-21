@@ -73,7 +73,6 @@ def submit_challenge(
 
         # User Commit
         user.solved_challenge = user.solved_challenge + [challenge_id]
-        user.total_score = user.total_score + challenge.points
 
         # TODO: Rank Sorting 
 

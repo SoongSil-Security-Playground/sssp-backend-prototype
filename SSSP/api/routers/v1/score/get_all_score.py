@@ -29,9 +29,9 @@ def get_all_score(
 
         data = {
             'username':user.username,
-            'total_score':calc_score(user)
+            'total_score':calc_score(user, db)
         }
-        user_responses.append(schema_score.ScoreResponse.construct(data))
+        user_responses.append(schema_score.ScoreResponse.construct(**data))
         
     logging.info(f"[*] Score List >> {user_responses}")
 
