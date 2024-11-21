@@ -9,6 +9,7 @@ from SSSP.api.routers.v1.auth import (
     logout,
     send_auth_code,
     verify_auth_code,
+    update_password,
     is_admin,
 )
 
@@ -56,7 +57,7 @@ router.include_router(verify_auth_code.router, prefix="/auth", tags=["auth"])
 
 ## user
 router.include_router(get_user_list.router, prefix="/user", tags=["user"])
-
+router.include_router(update_password.router, prefix="/user", tags=["user"])
 router.include_router(delete_current_user.router, prefix="/user", tags=["user"])
 router.include_router(get_current_user.router, prefix="/user", tags=["user"])
 router.include_router(update_current_user.router, prefix="/user", tags=["user"])
