@@ -44,4 +44,4 @@ def create_notice(
     logging.info(f"= Title : {title}")
     logging.info(f"= Content : {content}")
 
-    return schema_notice.NoticeResponse(new_notice)
+    return schema_notice.NoticeResponse.from_orm(new_notice)

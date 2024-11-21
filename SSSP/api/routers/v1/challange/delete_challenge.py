@@ -57,4 +57,4 @@ def delete_challenge(
     db.commit()
 
     logging.info(f"[-] Challenge deleted: ID {challenge_id}")
-    return
+    return {'success':1, 'detail':"delete challenge complete"}

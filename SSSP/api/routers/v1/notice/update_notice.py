@@ -50,4 +50,4 @@ def update_notice(
     db.commit()
     db.refresh(notice)
 
-    return {}
+    return {'success':1}

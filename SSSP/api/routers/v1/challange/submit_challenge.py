@@ -99,4 +99,4 @@ def submit_challenge(
     db.refresh(new_submit)
     db.refresh(challenge)
 
-    return {'detail': comment}
+    return {'is_correct':comment=="Correct!", 'detail': comment}
