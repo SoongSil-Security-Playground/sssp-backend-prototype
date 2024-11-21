@@ -93,6 +93,30 @@ async def server_start():
             contents="hihi",
             authority="USER",
         )
+        
+        new_user2 = User(
+            username="qwer",
+            email="qwer@example.com",
+            hashed_password=get_password_hash("qwer"),
+            contents="hihi",
+            authority="USER",
+        )
+
+        new_user3 = User(
+            username="asdf",
+            email="asdf@example.com",
+            hashed_password=get_password_hash("asdf"),
+            contents="hihi",
+            authority="USER",
+        )
+        
+        new_user4 = User(
+            username="zxcv",
+            email="zxcv@example.com",
+            hashed_password=get_password_hash("zxcv"),
+            contents="hihi",
+            authority="USER",
+        )
 
         new_admin = User(
             username=settings.initial_account.INITIAL_ADMIN_ID,
@@ -158,6 +182,9 @@ async def server_start():
 
         db: Session = next(get_db())
         db.add(new_user)
+        db.add(new_user2)
+        db.add(new_user3)
+        db.add(new_user4)
         db.add(new_admin)
         db.add(new_chall)
         db.add(new_chall2)
@@ -169,6 +196,9 @@ async def server_start():
         db.refresh(new_chall3)
         db.refresh(new_chall4)
         db.refresh(new_user)
+        db.refresh(new_user2)
+        db.refresh(new_user3)
+        db.refresh(new_user4)
         db.refresh(new_admin)
     except Exception as e:
         logging.warn(e)
