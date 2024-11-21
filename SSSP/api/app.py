@@ -65,6 +65,7 @@ def health_check():
 def root():
     return {"Hello": "SSSP"}
 
+
 @apimain.on_event("startup")
 async def server_start():
     logging.info("Service Startup Process")
@@ -77,50 +78,96 @@ async def server_start():
         except:
             logging.warn("DB connection failed, retrying...")
             time.sleep(5)
-    
+
     if not db_init:
         logging.error("Failed to initialize db")
         exit()
 
     logging.info("DB Connection success")
     try:
-        
+
         new_user = User(
-            username='user',
-            email='user@example.com',
+            username="user",
+            email="user@example.com",
             hashed_password=get_password_hash("user"),
             contents="hihi",
-            authority="USER"
+            authority="USER",
         )
 
         new_admin = User(
             username=settings.initial_account.INITIAL_ADMIN_ID,
-            email='admin@example.com',
-            hashed_password=get_password_hash(settings.initial_account.INITIAL_ADMIN_ID),
+            email="admin@example.com",
+            hashed_password=get_password_hash(
+                settings.initial_account.INITIAL_ADMIN_ID
+            ),
             contents="hihi",
-            authority="ADMIN"
+            authority="ADMIN",
         )
 
         new_chall = Challenge(
-        name="chall1",
-        description="test",
-        points=1000,
-        category="PWN",
-        file_path=None,
-        flag="flag{thisisflag}",
+            name="chall1",
+            description="test",
+            points=1000,
+            category="PWN",
+            file_path=None,
+            flag="flag{thisisflag}",
+            decay=50,
+            initial_points=1000,
+            minimum_points=300,
+            is_dynamic=True,
+        )
+        
+        new_chall2 = Challenge(
+            name="chall-2",
+            description="new chall 2 test",
+            points=1000,
+            category="WEB",
+            file_path=None,
+            flag="flag{thisisflag}",
+            decay=100,
+            initial_points=1000,
+            minimum_points=300,
+            is_dynamic=True,
+        )
+        
+        new_chall3 = Challenge(
+            name="chall-3",
+            description="chall3",
+            points=1000,
+            category="REV",
+            file_path=None,
+            flag="flag{thisisflag}",
+            decay=50,
+            initial_points=1000,
+            minimum_points=300,
+            is_dynamic=True,
+        )
+        
+        new_chall4 = Challenge(
+            name="chall-4",
+            description="chall4 test test hoho",
+            points=1000,
+            category="MISC",
+            file_path=None,
+            flag="flag{thisisflag}",
+            decay=50,
+            initial_points=1000,
+            minimum_points=300,
+            is_dynamic=True,
+        )
 
-        decay=50,
-        initial_points=1000,
-        minimum_points=300,
-        is_dynamic=True,
-    )
-
-        db:Session = next(get_db())
+        db: Session = next(get_db())
         db.add(new_user)
         db.add(new_admin)
         db.add(new_chall)
+        db.add(new_chall2)
+        db.add(new_chall3)
+        db.add(new_chall4)
         db.commit()
         db.refresh(new_chall)
+        db.refresh(new_chall2)
+        db.refresh(new_chall3)
+        db.refresh(new_chall4)
         db.refresh(new_user)
         db.refresh(new_admin)
     except Exception as e:
