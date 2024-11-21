@@ -109,7 +109,7 @@ async def server_start():
             description="test",
             points=1000,
             category="PWN",
-            file_path=None,
+            file_path="https://rwx.kr/server.py",
             flag="flag{thisisflag}",
             decay=50,
             initial_points=1000,
