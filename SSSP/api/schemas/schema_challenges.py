@@ -21,6 +21,7 @@ class ChallengeResponse(ChallengeBase):
     created_at: datetime
     file_path: Optional[str] = None
     category: str
+    is_user_solved: Optional[int] = None
     
     class Config:
         from_attributes = True

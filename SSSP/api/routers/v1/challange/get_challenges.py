@@ -20,12 +20,20 @@ def get_all_challenge(
     token: str = Depends(settings.oauth2_scheme), db: Session = Depends(get_db)
 ):
     user = get_current_user_by_jwt(token, db)
+    user_solved_challenge_list = user.solved_challenge
 
     challenges = db.query(models.Challenge).all()
-    challenge_responses = [
-        schema_challenges.ChallengeResponse.from_orm(challenge)
-        for challenge in challenges
-    ]
+    challenge_responses = list()
+
+    for challenge in challenges:
+        temp = schema_challenges.ChallengeResponse.from_orm(challenge)
+        if temp.id in user_solved_challenge_list:
+            temp.is_user_solved = 1
+        else:
+            temp.is_user_solved = 0
+            
+        challenge_responses.append(temp)
+
     logging.info(f"[*] CHALLENGE_LIST>> {challenge_responses}")
     return challenge_responses
 
