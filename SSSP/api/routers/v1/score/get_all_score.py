@@ -27,8 +27,23 @@ def get_all_score(
         if user.authority == UserRole.ADMIN:
             continue
 
-        user_responses.append(schema_score.ScoreResponse.from_orm(user))
+        data = {
+            'username':user.username,
+            'total_score':calc_score(user)
+        }
+        user_responses.append(schema_score.ScoreResponse.construct(data))
         
     logging.info(f"[*] Score List >> {user_responses}")
 
     return user_responses
+
+def calc_score(user: models.User, db: Session):
+    solved_list = user.solved_challenge
+    score = 0
+    for solve_id in solved_list:
+        challenge = (
+            db.query(models.Challenge).filter(models.Challenge.id == solve_id).first()
+        )
+        score += challenge.points
+
+    return score

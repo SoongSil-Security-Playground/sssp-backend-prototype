@@ -66,7 +66,7 @@ def submit_challenge(
             decay   = challenge.decay
             solve_count = challenge.solve_count
 
-            new_point = (((minimum - initial) / (decay ** 2)) * (solve_count ** 2)) + initial
+            new_point = int((((minimum - initial) / (decay ** 2)) * (solve_count ** 2)) + initial)
             logging.info("New Dynamic Point! : " + str(new_point))
             challenge.points = new_point
         challenge.solve_count = challenge.solve_count + 1

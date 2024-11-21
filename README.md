@@ -15,7 +15,8 @@ $ docker-compose up -d --build
 
 ## Todo
 
-    
+- submit_challenge.py
+    - 다이나믹 스코어로 바뀌면, 점수계산 다시해야지 ... 
 - global_exception_handler.py
     - Python error detail 전체노출 나중 삭제
     - Exception 뜨면 Catch해서 detail과 함께 error 메시지를 전송하도록

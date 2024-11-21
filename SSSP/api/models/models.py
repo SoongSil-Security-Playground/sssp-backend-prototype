@@ -25,7 +25,7 @@ class User(Base):
     created_at = Column(DateTime, default=datetime.now(ZoneInfo("Asia/Seoul")))
     authority = Column(SQLEnum(UserRole), default=UserRole.USER)
 
-    total_score = Column(Float, default=0.0)
+    total_score = Column(int, default=0.0)
     rank = Column(Integer, nullable=True)
     solved_challenge = Column(JSON, default=list)
 
