@@ -15,7 +15,7 @@ from SSSP.api.core.database import *
 router = APIRouter()
 
 
-@router.post("/delete", status_code=status.HTTP_200_OK)
+@router.delete("/delete", status_code=status.HTTP_200_OK)
 def delete_current_user(
     token: str = Depends(settings.oauth2_scheme), db: Session = Depends(get_db)
 ):
