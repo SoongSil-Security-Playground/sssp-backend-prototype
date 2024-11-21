@@ -9,6 +9,7 @@ from SSSP.api.routers.v1.auth import (
     logout,
     send_auth_code,
     verify_auth_code,
+    is_admin,
 )
 
 from SSSP.api.routers.v1.user import (
@@ -71,6 +72,7 @@ router.include_router(create_notice.router, prefix="/admin", tags=["notice"])
 router.include_router(update_notice.router, prefix="/admin", tags=["notice"])
 
 ## User
+router.include_router(is_admin.router, prefix="/admin", tags=["auth"])
 
 ## Challenge
 router.include_router(create_challenge.router, prefix="/admin/challenges", tags=["challenge"])
