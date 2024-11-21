@@ -16,7 +16,9 @@ logging.basicConfig(level=logging.INFO)
 # directory dependency
 from SSSP.api.core.database import get_db
 from SSSP.api.models import models
-from SSSP.config import settings, NOW
+from datetime import datetime 
+from zoneinfo import ZoneInfo
+from SSSP.config import settings
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -36,9 +38,9 @@ def get_password_hash(password):
 def create_access_token(data: dict, expires_delta: timedelta = None):
     to_encode = data.copy()
     if expires_delta:
-        expire = NOW + expires_delta
+        expire = datetime.now(ZoneInfo("Asia/Seoul")) + expires_delta
     else:
-        expire = NOW + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+        expire = datetime.now(ZoneInfo("Asia/Seoul")) + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
@@ -63,7 +65,8 @@ def verify_token(token: str):
                 status_code=status.HTTP_401_UNAUTHORIZED, detail="Cannot find user id"
             )
         return username
-    except JWTError:
+    except JWTError as e:
+        logging.debug(e)
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Could not validate credentials",

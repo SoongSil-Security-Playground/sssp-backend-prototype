@@ -1,14 +1,9 @@
 from pydantic_settings import BaseSettings
 from fastapi.security import OAuth2PasswordBearer
 from typing import ClassVar
-from datetime import datetime
-from zoneinfo import ZoneInfo
 from pydantic import Field
 
 import os
-
-NOW = datetime.now(ZoneInfo("Asia/Seoul"))
-
 
 class Jwt:
     secret_key: str = os.getenv("JWT_SECRET_KEY", "develop_key")

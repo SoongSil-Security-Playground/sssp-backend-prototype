@@ -2,13 +2,12 @@ from sqlalchemy import Column, Integer, Float, String, ForeignKey, DateTime, Boo
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy import Enum as SQLEnum
-from datetime import datetime, timezone
+from datetime import datetime 
+from zoneinfo import ZoneInfo
 
 # directory dependency
 from SSSP.api.models.enums.user_role import UserRole
 from SSSP.api.models.enums.challenge_category import ChallengeCategory
-from SSSP.config import NOW
-
 
 Base = declarative_base()
 
@@ -23,7 +22,7 @@ class User(Base):
     email = Column(String(255), unique=True, index=True)
     hashed_password = Column(String(255))
     contents = Column(String(500), nullable=True)
-    created_at = Column(DateTime, default=NOW)
+    created_at = Column(DateTime, default=datetime.now(ZoneInfo("Asia/Seoul")))
     authority = Column(SQLEnum(UserRole), default=UserRole.USER)
 
     total_score = Column(Float, default=0.0)
@@ -40,7 +39,7 @@ class Challenge(Base):
     name = Column(String(255), nullable=False)
     flag = Column(String(255), nullable=False)
     description = Column(Text, nullable=False)
-    created_at = Column(DateTime, default=NOW)
+    created_at = Column(DateTime, default=datetime.now(ZoneInfo("Asia/Seoul")))
     category = Column(SQLEnum(ChallengeCategory), nullable=False)
     file_path = Column(String(255))
     points = Column(Integer, nullable=False)
@@ -65,7 +64,7 @@ class Submission(Base):
     id = Column(Integer, primary_key=True, index=True)
     submitted_flag = Column(String(255), nullable=False)
     is_correct = Column(Boolean, default=False)
-    created_at = Column(DateTime, default=NOW)
+    created_at = Column(DateTime, default=datetime.now(ZoneInfo("Asia/Seoul")))
     comment = Column(String(255), nullable=False)
     
     # Dynamic Scoring 적용했을 때, 해당 필드 켜서 각 제출에 대한 점수 계산 ( + 로깅 )
@@ -82,7 +81,7 @@ class Notice(Base):
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String(255), nullable=False)
     content = Column(Text, nullable=False)
-    created_at = Column(DateTime, default=NOW)
+    created_at = Column(DateTime, default=datetime.now(ZoneInfo("Asia/Seoul")))
 
     author_id = Column(Integer, ForeignKey("users.id"), nullable=False)
 
