@@ -18,6 +18,9 @@ def get_user(
     token: str = Depends(settings.oauth2_scheme), db: Session = Depends(get_db)
 ):
     find_user_name = auth.get_current_user_by_jwt(token, db)
+
+    if find_user_name == None:
+        return {'success':0, "detail":"User not found."}
     
     logging.info(f"[*] GET_CURRENT_USER>> find user {find_user_name}")
 

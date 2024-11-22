@@ -48,39 +48,30 @@ def create_access_token(data: dict, expires_delta: timedelta = None):
 
 def get_current_user_by_jwt(token, db: Session = Depends(get_db)):
     username = verify_token(token)
-    if username:
-        return db.query(models.User).filter(models.User.username == username).first()
+    user = db.query(models.User).filter(models.User.username == username).first()
+    if user == None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="Cannot find user id"
+        )
     
-
+    return user
+    
+    
 
 def verify_token(token: str):
     try:
         logging.debug(token)
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        logging.info(f"[*] AUTH>> Decoded payload: {payload}")
         username: str = payload.get("sub")
+        logging.info(f"[*] AUTH>> Decoded payload: {payload}")
         logging.info(f"[*] AUTH>> sub from payload: {username}")
-        if username is None:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED, detail="Cannot find user id"
-            )
         return username
     except JWTError as e:
         logging.debug(e)
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Could not validate credentials",
+            detail="Failed to verify JWT token.",
         )
-
-    # Query user by user_id
-    user = db.query(models.User).filter(models.User.id == user_id).first()
-    if user is None:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED, detail="User not found"
-        )
-
-    return user
-
 
 def generate_auth_code(length: int = 6) -> str:
     """숫자로 된 인증 코드 생성"""
