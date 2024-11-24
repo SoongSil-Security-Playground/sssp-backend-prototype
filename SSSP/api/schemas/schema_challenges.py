@@ -4,14 +4,12 @@ from typing import Optional
 from datetime import datetime
 
 # directory dependency
-from SSSP.api.models.enums.challenge_category import ChallengeCategory
-
 
 class ChallengeBase(BaseModel):
     name: str = Field(..., max_length=255)
     description: str
     points: int
-    category: ChallengeCategory
+    category: str
 
 class ChallengeUpdate(ChallengeBase):
     file_path: Optional[str] = None

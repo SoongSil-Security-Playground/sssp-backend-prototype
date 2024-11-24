@@ -27,9 +27,9 @@ def create_challenge(
     category: str = Form(...),
     file: Optional[UploadFile] = File(None),
     flag: str = Form(...),
-    decay: int = Form(None),
-    minimum_point: Optional[int] = Form(None),
-    is_dynamic: Optional[bool] = Form(None),
+    decay: int = Form(...),
+    minimum_point: int = Form(...),
+    is_dynamic: bool = Form(...),
     token: str = Depends(settings.oauth2_scheme),
     db: Session = Depends(get_db),
 ):

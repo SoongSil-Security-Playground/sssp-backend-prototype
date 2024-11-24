@@ -7,7 +7,6 @@ from zoneinfo import ZoneInfo
 
 # directory dependency
 from SSSP.api.models.enums.user_role import UserRole
-from SSSP.api.models.enums.challenge_category import ChallengeCategory
 
 Base = declarative_base()
 
@@ -39,7 +38,7 @@ class Challenge(Base):
     flag = Column(String(255), nullable=False)
     description = Column(Text, nullable=False)
     created_at = Column(DateTime, default=datetime.now(ZoneInfo("Asia/Seoul")))
-    category = Column(SQLEnum(ChallengeCategory), nullable=False)
+    category = Column(String(255), nullable=False)
     file_path = Column(String(255))
     points = Column(Integer, nullable=False)
 
