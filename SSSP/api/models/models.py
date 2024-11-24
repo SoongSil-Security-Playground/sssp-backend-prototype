@@ -1,8 +1,18 @@
-from sqlalchemy import Column, Integer, Float, String, ForeignKey, DateTime, Boolean, Text, JSON
+from sqlalchemy import (
+    Column,
+    Integer,
+    Float,
+    String,
+    ForeignKey,
+    DateTime,
+    Boolean,
+    Text,
+    JSON,
+)
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy import Enum as SQLEnum
-from datetime import datetime 
+from datetime import datetime
 from zoneinfo import ZoneInfo
 
 # directory dependency
@@ -27,9 +37,10 @@ class User(Base):
     rank = Column(Integer, nullable=True)
     solved_challenge = Column(JSON, default=list)
 
-    # admin 이라면 notices 관리하니까 
+    # admin 이라면 notices 관리하니까
     notices = relationship("Notice", back_populates="author")
     submissions = relationship("Submission", back_populates="user")
+
 
 class Challenge(Base):
     __tablename__ = "challenges"
@@ -43,7 +54,7 @@ class Challenge(Base):
     points = Column(Integer, nullable=False)
 
     # Dynamic Scoring 적용했을 때 initial_point에서 minimum_point 까지 decay 적용하여 current point를 계산
-    
+
     # 기본 처리 공식
     # value = (((minimum - initial) / (decay ** 2)) * (solve_count ** 2)) + initial
     # value = math.ceil(value)
@@ -57,6 +68,7 @@ class Challenge(Base):
 
     submissions = relationship("Submission", back_populates="challenge")
 
+
 class Submission(Base):
     __tablename__ = "submissions"
     id = Column(Integer, primary_key=True, index=True)
@@ -64,9 +76,9 @@ class Submission(Base):
     is_correct = Column(Boolean, default=False)
     created_at = Column(DateTime, default=datetime.now(ZoneInfo("Asia/Seoul")))
     comment = Column(String(255), nullable=False)
-    
+
     # Dynamic Scoring 적용했을 때, 해당 필드 켜서 각 제출에 대한 점수 계산 ( + 로깅 )
-    # points_earned = Column(Float, nullable=True) 
+    # points_earned = Column(Float, nullable=True)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     challenge_id = Column(Integer, ForeignKey("challenges.id"), nullable=False)
 

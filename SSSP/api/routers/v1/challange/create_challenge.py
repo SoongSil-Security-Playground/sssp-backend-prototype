@@ -23,12 +23,12 @@ router = APIRouter()
 def create_challenge(
     name: str = Form(...),
     description: str = Form(...),
-    points: int = Form(...),
+    points: str = Form(...),
     category: str = Form(...),
     file: Optional[UploadFile] = File(None),
     flag: str = Form(...),
-    decay: int = Form(...),
-    minimum_point: int = Form(...),
+    decay: str = Form(...),
+    minimum_point: str = Form(...),
     is_dynamic: bool = Form(...),
     token: str = Depends(settings.oauth2_scheme),
     db: Session = Depends(get_db),
@@ -65,17 +65,26 @@ def create_challenge(
         # if file is not required.
         download_url = None
 
+    try:
+        points_int = int(points)
+        decay_int = int(decay)
+        minimum_point_int = int(minimum_point)
+    except ValueError:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Invalid numeric values provided",
+        )
+
     db_challenge = models.Challenge(
         name=name,
         description=description,
-        points=points,
+        points=points_int,
         category=category,
         file_path=download_url,
         flag=flag,
-
-        decay=decay,
-        initial_points=points,
-        minimum_points=minimum_point,
+        decay=decay_int,
+        initial_points=points_int,
+        minimum_points=minimum_point_int,
         is_dynamic=is_dynamic,
     )
     db.add(db_challenge)
