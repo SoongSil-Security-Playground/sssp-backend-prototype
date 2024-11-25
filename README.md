@@ -30,6 +30,3 @@ $ docker-compose up -d --build
 - submit_challenge.py
     - flag validation
     - 무단 플래그 인증 취약점같은거 있는지 확인 ( 띄어쓰기가튼거 등 ) [ 아직 귀찮아서 안함 ㅋ..!! ]
-
-- config.py
-    - 배포할 떄 env 디폴트값 싹다 지우기 

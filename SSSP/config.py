@@ -5,26 +5,27 @@ from pydantic import Field
 
 import os
 
+
 class Jwt:
-    secret_key: str = os.getenv("JWT_SECRET_KEY", "develop_key")
-    algorithm: str = os.getenv("JWT_ALGORITHM", "HS256")
-    token_expire_minutes: int = os.getenv("JWT_TOKEN_EXPIRE_MINUTES", "30")
+    secret_key: str = os.getenv("JWT_SECRET_KEY")
+    algorithm: str = os.getenv("JWT_ALGORITHM")
+    token_expire_minutes: int = os.getenv("JWT_TOKEN_EXPIRE_MINUTES")
 
 
 class Database:
     def __init__(self):
-        self.MYSQL_HOST = os.getenv("MYSQL_HOST", "localhost")
-        self.MYSQL_DB = os.getenv("MYSQL_DB", "sssp_database")
-        self.MYSQL_USER = os.getenv("MYSQL_USER", "sssp")
-        self.MYSQL_PASSWORD = os.getenv("MYSQL_PASSWORD", "sssppassword")
-        self.MYSQL_PORT = os.getenv("MYSQL_PORT", "3306")
+        self.MYSQL_HOST = os.getenv("MYSQL_HOST")
+        self.MYSQL_DB = os.getenv("MYSQL_DB")
+        self.MYSQL_USER = os.getenv("MYSQL_USER")
+        self.MYSQL_PASSWORD = os.getenv("MYSQL_PASSWORD")
+        self.MYSQL_PORT = os.getenv("MYSQL_PORT")
         self.DATABASE_URL = f"mysql+pymysql://{self.MYSQL_USER}:{self.MYSQL_PASSWORD}@{self.MYSQL_HOST}:{self.MYSQL_PORT}/{self.MYSQL_DB}"
 
 
 class InitialAdmin:
     def __init__(self):
-        self.INITIAL_ADMIN_ID = os.getenv("INITIAL_ADMIN_ID", 'admin')
-        self.INITIAL_ADMIN_PW = os.getenv("INITIAL_ADMIN_PW", 'admin')
+        self.INITIAL_ADMIN_ID = os.getenv("INITIAL_ADMIN_ID")
+        self.INITIAL_ADMIN_PW = os.getenv("INITIAL_ADMIN_PW")
 
 
 class S3:
@@ -36,8 +37,8 @@ class S3:
 
 
 class RedisSettings(BaseSettings):
-    REDIS_HOST: str = os.getenv("REDIS_HOST", "sssp_redis")
-    REDIS_PORT: int = os.getenv("REDIS_PORT", "6379")
+    REDIS_HOST: str = os.getenv("REDIS_HOST")
+    REDIS_PORT: int = os.getenv("REDIS_PORT")
 
 
 class EmailSettings(BaseSettings):
@@ -64,8 +65,8 @@ class Settings(BaseSettings):
     s3: S3 = S3()
     redis: RedisSettings = RedisSettings()
     email: EmailSettings = EmailSettings(
-        sender_email=os.getenv("GOOGLE_EMAIL", "a"),
-        sender_password=os.getenv("GOOGLE_EMAIL_SECRET", 'b'),
+        sender_email=os.getenv("GOOGLE_EMAIL"),
+        sender_password=os.getenv("GOOGLE_EMAIL_SECRET"),
     )
 
     model_config = {
