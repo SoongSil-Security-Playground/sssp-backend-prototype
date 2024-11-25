@@ -32,6 +32,18 @@ services:
         condition: service_healthy
     networks:
       - sssp_network
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.5'
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:443/health-check"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
   sssp-database:
     image: mysql:8.0
@@ -52,6 +64,11 @@ services:
       retries: 5
     networks:
       - sssp_network
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+    restart: always
 
   redis:
     image: redis:7.2-alpine
@@ -68,6 +85,11 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+    restart: always
 
 volumes:
   mysql_data:
