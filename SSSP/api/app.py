@@ -38,7 +38,7 @@ apimain.add_exception_handler(Exception, global_exception_handler)
 apimain.add_exception_handler(Exception, validation_exception_handler)
 
 # CORS
-origins = ["http://localhost:3000"]
+origins = ["http://localhost:3000", "https://soongsil-security-playground.github.io"]
 apimain.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -93,7 +93,7 @@ async def server_start():
             contents="hihi",
             authority="USER",
         )
-        
+
         new_user2 = User(
             username="qwer",
             email="qwer@example.com",
@@ -109,7 +109,7 @@ async def server_start():
             contents="hihi",
             authority="USER",
         )
-        
+
         new_user4 = User(
             username="zxcv",
             email="zxcv@example.com",
@@ -140,7 +140,7 @@ async def server_start():
             minimum_points=300,
             is_dynamic=True,
         )
-        
+
         new_chall2 = Challenge(
             name="chall-2",
             description="new chall 2 test",
@@ -153,7 +153,7 @@ async def server_start():
             minimum_points=300,
             is_dynamic=True,
         )
-        
+
         new_chall3 = Challenge(
             name="chall-3",
             description="chall3",
@@ -166,7 +166,7 @@ async def server_start():
             minimum_points=300,
             is_dynamic=True,
         )
-        
+
         new_chall4 = Challenge(
             name="chall-4",
             description="chall4 test test hoho",
