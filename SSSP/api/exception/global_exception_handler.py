@@ -4,6 +4,7 @@ from fastapi import Request, status
 from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
 from sqlalchemy.exc import DataError, IntegrityError
+from pydantic import ValidationError
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -52,15 +53,18 @@ async def global_exception_handler(request: Request, exc: Exception):
 
 
 # Validation Exception Handler
-async def validation_exception_handler(request: Request, exc: RequestValidationError):
+async def pydantic_validation_exception_handler(request: Request, exc: ValidationError):
     logging.error(
-        f"[*] ValidationExceptionHandler>> Validation error: {exc} for Request {request.url}"
+        f"[*] PydanticValidationHandler>> Validation error: {exc} for Request {request.url}"
     )
+    error_details = exc.errors()
+    logging.debug(f"Validation error details: {error_details}")
+
     return JSONResponse(
         status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
         content={
             "error_name": "Validation Error",
-            "details": exc.errors(),
-            "body": exc.body,
+            "detail": error_details,
+            "message": "입력 데이터 검증 실패",
         },
     )

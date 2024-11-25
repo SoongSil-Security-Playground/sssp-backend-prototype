@@ -12,15 +12,18 @@ from SSSP.api.schemas import schema_notice
 
 
 import logging
+
 logging.basicConfig(level=logging.INFO)
 
 router = APIRouter()
+
 
 @router.post("/notice", response_model=schema_notice.NoticeResponse)
 def create_notice(
     title: str = Form(...),
     content: str = Form(...),
-    token: str = Depends(settings.oauth2_scheme), db: Session = Depends(get_db)
+    token: str = Depends(settings.oauth2_scheme),
+    db: Session = Depends(get_db),
 ):
     user = get_current_user_by_jwt(token, db)
     if user.authority != UserRole.ADMIN:
@@ -35,7 +38,7 @@ def create_notice(
         content=content,
         author_id=user.id,
     )
-    
+
     db.add(new_notice)
     db.commit()
     db.refresh(new_notice)

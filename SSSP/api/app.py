@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.exc import DataError, IntegrityError
-
+from pydantic import ValidationError
 import os
 
 # directory dependency
@@ -11,9 +11,9 @@ from SSSP.api.core.database import engine, get_db
 from SSSP.config import settings
 from SSSP.api.exception.global_exception_handler import (
     global_exception_handler,
-    validation_exception_handler,
     sqlalchemy_data_error_handler,
     sqlalchemy_integrity_error_handler,
+    pydantic_validation_exception_handler,
 )
 
 # Router
@@ -35,7 +35,7 @@ apimain.include_router(v1api, prefix="/api/v1")
 apimain.add_exception_handler(DataError, sqlalchemy_data_error_handler)
 apimain.add_exception_handler(IntegrityError, sqlalchemy_integrity_error_handler)
 apimain.add_exception_handler(Exception, global_exception_handler)
-apimain.add_exception_handler(Exception, validation_exception_handler)
+apimain.add_exception_handler(ValidationError, pydantic_validation_exception_handler)
 
 # CORS
 origins = ["http://localhost:3000", "https://soongsil-security-playground.github.io"]
