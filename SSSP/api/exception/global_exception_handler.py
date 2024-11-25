@@ -1,6 +1,6 @@
 import traceback
 import logging
-from fastapi import Request, status
+from fastapi import Request, status, HTTPException
 from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
 from sqlalchemy.exc import DataError, IntegrityError
@@ -42,14 +42,25 @@ async def global_exception_handler(request: Request, exc: Exception):
         f"[*] ExceptionHandler>> Exception occurred: {exc} by Request {request.url}"
     )
     error_details = traceback.format_exc()
-    return JSONResponse(
-        status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-        content={
-            "error_name": "Internal Server Error",
-            "error_message": "An unexpected error occurred. Please contact support.",
-            "details": error_details,
-        },
-    )
+    logging.error(f"[*] ExceptionHandler>> Stacktrace: {error_details}")
+
+    try:
+        return JSONResponse(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            content={
+                "error_name": "Internal Server Error",
+                "error_message": str(exc),
+                "details": (
+                    error_details if not isinstance(exc, HTTPException) else None
+                ),
+            },
+        )
+    except Exception as e:
+        logging.critical(f"[*] ExceptionHandler>> Failed to handle exception: {e}")
+        return JSONResponse(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            content={"error_message": "Critical error in exception handler"},
+        )
 
 
 # Validation Exception Handler
