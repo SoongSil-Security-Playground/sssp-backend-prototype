@@ -52,6 +52,16 @@ class EmailSettings(BaseSettings):
     }
 
 
+class DiscordSettings(BaseSettings):
+    DISCORD_WEBHOOK: str = os.getenv("DISCORD_WEBHOOK")
+
+    model_config = {
+        "env_file": ".env",
+        "env_file_encoding": "utf-8",
+        "extra": "allow",
+    }
+
+
 class Settings(BaseSettings):
     app_name: str = "Soongsil Security Playground"
     favicon_path: str = "./SSSP/static/favicon.ico"
@@ -68,6 +78,7 @@ class Settings(BaseSettings):
         sender_email=os.getenv("GOOGLE_EMAIL"),
         sender_password=os.getenv("GOOGLE_EMAIL_SECRET"),
     )
+    discord: DiscordSettings = DiscordSettings()
 
     model_config = {
         "env_file": ".env",
