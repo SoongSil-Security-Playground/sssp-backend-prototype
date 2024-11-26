@@ -20,6 +20,7 @@ class ChallengeResponse(ChallengeBase):
     file_path: Optional[str] = None
     category: str
     is_user_solved: Optional[int] = None
+    solve_count: int
     
     class Config:
         from_attributes = True
