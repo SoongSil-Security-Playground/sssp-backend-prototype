@@ -26,6 +26,7 @@ from SSSP.api.routers.v1.challange import (
     delete_challenge,
     update_challenge,
     submit_challenge,
+    solve_log,
 )
 
 from SSSP.api.routers.v1.score import (
@@ -68,6 +69,8 @@ router.include_router(submit_challenge.router, prefix="/challenges", tags=["chal
 
 
 # admin
+router.include_router(solve_log.router, prefix="/admin", tags=["logs"])
+
 ## notice
 router.include_router(create_notice.router, prefix="/admin", tags=["notice"])
 router.include_router(update_notice.router, prefix="/admin", tags=["notice"])
