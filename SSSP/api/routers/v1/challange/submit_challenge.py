@@ -84,7 +84,7 @@ def submit_challenge(
     logging.info("User      Flag : " + flag)
 
     new_submit = models.Submission(
-        submitted_flag = challenge.flag,
+        submitted_flag = flag,
         is_correct = is_correct,
         comment=comment,
         user_id = user.id,
