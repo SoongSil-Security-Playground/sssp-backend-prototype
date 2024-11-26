@@ -31,7 +31,7 @@ import logging
 
 logging.basicConfig(level=logging.INFO)
 
-apimain = FastAPI()
+apimain = FastAPI(docs_url="/docs", redoc_url="/redoc", openapi_url="/openapi.json")
 apimain.include_router(v1api, prefix="/api/v1")
 apimain.add_exception_handler(DataError, sqlalchemy_data_error_handler)
 apimain.add_exception_handler(IntegrityError, sqlalchemy_integrity_error_handler)
