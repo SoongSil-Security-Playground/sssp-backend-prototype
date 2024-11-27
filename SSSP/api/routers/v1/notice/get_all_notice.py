@@ -22,4 +22,4 @@ def get_all_notice(
     notice_response = [schema_notice.NoticeResponse.from_orm(notice) for notice in notice_list]
     logging.info(f"[*] Notice List >> {notice_response}")
 
-    return notice_response
+    return notice_response[::-1]
