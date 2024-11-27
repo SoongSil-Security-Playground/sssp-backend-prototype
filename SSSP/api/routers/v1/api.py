@@ -37,6 +37,7 @@ from SSSP.api.routers.v1.notice import (
     get_all_notice,
     create_notice,
     update_notice,
+    delete_notice,
 )
 
 router = APIRouter()
@@ -44,9 +45,6 @@ router = APIRouter()
 # User
 ## scoring
 router.include_router(get_all_score.router, tags=["scoring"])
-
-## notice
-router.include_router(get_all_notice.router, tags=["notice"])
 
 ## auth
 router.include_router(login.router, prefix="/auth", tags=["auth"])
@@ -74,11 +72,18 @@ router.include_router(solve_log.router, prefix="/admin", tags=["logs"])
 ## notice
 router.include_router(create_notice.router, prefix="/admin", tags=["notice"])
 router.include_router(update_notice.router, prefix="/admin", tags=["notice"])
-
+router.include_router(get_all_notice.router, prefix="/admin", tags=["notice"])
+router.include_router(delete_notice.router, prefix="/admin", tags=["notice"])
 ## User
 router.include_router(is_admin.router, prefix="/admin", tags=["auth"])
 
 ## Challenge
-router.include_router(create_challenge.router, prefix="/admin/challenges", tags=["challenge"])
-router.include_router(delete_challenge.router, prefix="/admin/challenges", tags=["challenge"])
-router.include_router(update_challenge.router, prefix="/admin/challenges", tags=["challenge"])
+router.include_router(
+    create_challenge.router, prefix="/admin/challenges", tags=["challenge"]
+)
+router.include_router(
+    delete_challenge.router, prefix="/admin/challenges", tags=["challenge"]
+)
+router.include_router(
+    update_challenge.router, prefix="/admin/challenges", tags=["challenge"]
+)
