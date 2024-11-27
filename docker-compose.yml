@@ -39,7 +39,7 @@ services:
           cpus: '0.5'
     restart: always
     healthcheck:
-      test: ["CMD", "curl", "-f", "https://sssp.live/health-check"]
+      test: ["CMD", "curl", "-f", "-k", "https://localhost:443/health-check"]
       interval: 30s
       timeout: 10s
       retries: 3
