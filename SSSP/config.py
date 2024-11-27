@@ -5,6 +5,8 @@ from pydantic import Field
 
 import os
 
+class Ban:
+    ban_list: list = os.getenv("BAN")
 
 class Jwt:
     secret_key: str = os.getenv("JWT_SECRET_KEY")
@@ -66,6 +68,7 @@ class Settings(BaseSettings):
     app_name: str = "Soongsil Security Playground"
     favicon_path: str = "./SSSP/static/favicon.ico"
 
+    ban_info: Ban = Ban()
     jwt: Jwt = Jwt()
     oauth2_scheme: ClassVar[OAuth2PasswordBearer] = OAuth2PasswordBearer(
         tokenUrl="/api/v1/auth/login"

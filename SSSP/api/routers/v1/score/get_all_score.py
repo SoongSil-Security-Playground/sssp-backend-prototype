@@ -10,6 +10,8 @@ from SSSP.api.schemas import schema_score
 from SSSP.api.core.database import *
 from SSSP.api.core.auth import get_current_user_by_jwt
 
+from SSSP.config import settings
+
 import logging
 logging.basicConfig(level=logging.INFO)
 
@@ -25,6 +27,9 @@ def get_all_score(
     user_responses = []
     for user in users:
         if user.authority == UserRole.ADMIN:
+            continue
+
+        if user.username in settings.ban_info.ban_list:
             continue
 
         data = {
