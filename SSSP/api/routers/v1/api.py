@@ -27,11 +27,10 @@ from SSSP.api.routers.v1.challange import (
     update_challenge,
     submit_challenge,
     solve_log,
+    get_user_solved_challenges,
 )
 
-from SSSP.api.routers.v1.score import (
-    get_all_score,
-)
+from SSSP.api.routers.v1.score import get_all_score, get_my_score
 
 from SSSP.api.routers.v1.notice import (
     get_all_notice,
@@ -44,8 +43,8 @@ router = APIRouter()
 
 # User
 ## scoring
-router.include_router(get_all_score.router, tags=["scoring"])
-
+router.include_router(get_all_score.router, prefix="/score", tags=["scoring"])
+router.include_router(get_my_score.router, prefix="/score", tags=["scoring"])
 ## auth
 router.include_router(login.router, prefix="/auth", tags=["auth"])
 router.include_router(logout.router, prefix="/auth", tags=["auth"])
@@ -64,20 +63,9 @@ router.include_router(update_current_user.router, prefix="/user", tags=["user"])
 ## challenge
 router.include_router(get_challenges.router, prefix="/challenges", tags=["challenge"])
 router.include_router(submit_challenge.router, prefix="/challenges", tags=["challenge"])
-
-
-# admin
-router.include_router(solve_log.router, prefix="/admin", tags=["logs"])
-
-## notice
-router.include_router(create_notice.router, prefix="/admin", tags=["notice"])
-router.include_router(update_notice.router, prefix="/admin", tags=["notice"])
-router.include_router(get_all_notice.router, tags=["notice"])
-router.include_router(delete_notice.router, prefix="/admin", tags=["notice"])
-## User
-router.include_router(is_admin.router, prefix="/admin", tags=["auth"])
-
-## Challenge
+router.include_router(
+    get_user_solved_challenges.router, prefix="/challenges", tags=["challenge"]
+)
 router.include_router(
     create_challenge.router, prefix="/admin/challenges", tags=["challenge"]
 )
@@ -87,3 +75,15 @@ router.include_router(
 router.include_router(
     update_challenge.router, prefix="/admin/challenges", tags=["challenge"]
 )
+
+# admin
+router.include_router(solve_log.router, prefix="/admin", tags=["logs"])
+
+## notice
+router.include_router(create_notice.router, prefix="/admin", tags=["notice"])
+router.include_router(update_notice.router, prefix="/admin", tags=["notice"])
+router.include_router(get_all_notice.router, tags=["notice"])
+router.include_router(delete_notice.router, prefix="/admin", tags=["notice"])
+
+## User
+router.include_router(is_admin.router, prefix="/admin", tags=["auth"])
