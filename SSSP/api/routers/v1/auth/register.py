@@ -18,6 +18,13 @@ def register(request: schema_users.UserCreateRequest, db: Session = Depends(get_
     if user_in_db:
         raise HTTPException(status_code=400, detail="Email already registered")
 
+    user_in_auth_list = (
+        db.query(models.AuthUserList).filter(models.AuthUserList.useremail == request.email).first()
+    )
+
+    if not user_in_auth_list:
+        raise HTTPException(status_code=400, detail="Please verify your email first.")
+
     hashed_password = auth.get_password_hash(request.password)
 
     new_user = models.User(

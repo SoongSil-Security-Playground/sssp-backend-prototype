@@ -57,7 +57,6 @@ async def send_auth_code(
 
         return {
             "receiver_email": receiver_email,
-            "auth_code": auth_code,
             "expires_in": f"{AUTH_CODE_EXPIRE_MINUTES}분",
         }
 

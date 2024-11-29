@@ -88,3 +88,8 @@ class Notice(Base):
     author_id = Column(Integer, ForeignKey("users.id"), nullable=False)
 
     author = relationship("User", back_populates="notices")
+
+class AuthUserList(Base):
+    __tablename__ = "authuserlist"
+    id = Column(Integer, primary_key=True, index=True)
+    useremail = Column(String(255), nullable=False)

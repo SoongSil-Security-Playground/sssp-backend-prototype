@@ -1,4 +1,9 @@
 from fastapi import APIRouter, HTTPException, status, Depends
+from sqlalchemy.orm import Session
+from SSSP.api.core.database import get_db
+from SSSP.api.models import models
+
+
 from redis import Redis
 import redis
 import logging
@@ -10,7 +15,10 @@ router = APIRouter()
 
 @router.post("/verify-auth-code")
 async def verify_auth_code(
-    email: str, auth_code: str, redis_client: Redis = Depends(get_redis)
+    email: str,
+    auth_code: str,
+    redis_client: Redis = Depends(get_redis),
+    db: Session = Depends(get_db),
 ):
     """
     이메일 인증 코드를 검증하는 엔드포인트
@@ -48,6 +56,13 @@ async def verify_auth_code(
 
         # 인증 성공 시 Redis에서 코드 삭제
         redis_client.delete(redis_key)
+
+        auth_user = models.AuthUserList(
+            useremail=email
+        )
+        db.add(auth_user)
+        db.commit()
+        db.refresh(auth_user)
 
         return {
             "message": "이메일 인증이 완료되었습니다",
