@@ -22,7 +22,7 @@ def submit_challenge(
     token: str = Depends(settings.oauth2_scheme),
     db: Session = Depends(get_db),
 ):
-    
+    return {"is_correct":False, "detail":"CTF is end!"}
     # Solver
     user = get_current_user_by_jwt(token, db)
 

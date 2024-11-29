@@ -43,7 +43,7 @@ router = APIRouter()
 
 # User
 ## scoring
-router.include_router(get_all_score.router, prefix="/score", tags=["scoring"])
+router.include_router(get_all_score.router, tags=["scoring"])
 router.include_router(get_my_score.router, prefix="/score", tags=["scoring"])
 ## auth
 router.include_router(login.router, prefix="/auth", tags=["auth"])
