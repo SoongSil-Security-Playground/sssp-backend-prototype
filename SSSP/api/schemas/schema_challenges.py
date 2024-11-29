@@ -21,6 +21,7 @@ class ChallengeResponse(ChallengeBase):
     category: str
     is_user_solved: Optional[int] = None
     solve_count: int
+    level: str
     
     class Config:
         from_attributes = True
