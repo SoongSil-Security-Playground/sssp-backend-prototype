@@ -112,7 +112,7 @@ async def server_start():
             username=settings.initial_account.INITIAL_ADMIN_ID,
             email="admin@example.com",
             hashed_password=get_password_hash(
-                settings.initial_account.INITIAL_ADMIN_ID
+                settings.initial_account.INITIAL_ADMIN_PW
             ),
             contents="hihi",
             authority="ADMIN",
