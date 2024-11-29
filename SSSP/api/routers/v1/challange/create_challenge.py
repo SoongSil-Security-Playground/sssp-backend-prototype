@@ -9,6 +9,7 @@ from SSSP.config import settings, s3
 from SSSP.util.s3_client import s3_client
 from typing import Optional
 import logging
+import os
 
 logging.basicConfig(level=logging.INFO)
 
@@ -42,17 +43,18 @@ def create_challenge(
         )
 
     # S3 bucket generator for attachment
+    new_filename = f"{os.urandom(4).hex()}_{file.filename}"
     download_url = None
     if file is not None:
         try:
-            file_key = f"challenges/{file.filename}"
+            file_key = f"challenges/{new_filename}"
             s3_client.put_object(
                 Bucket=s3.S3_BUCKET_NAME,
                 Key=file_key,
                 Body=file.file,
                 ContentType=file.content_type,
             )
-            logging.info(f"File {file.filename} uploaded to S3 bucket")
+            logging.info(f"File {new_filename} uploaded to S3 bucket")
 
             download_url = f"https://{s3.S3_BUCKET_NAME}.s3.amazonaws.com/{file_key}"
         except Exception as e:
