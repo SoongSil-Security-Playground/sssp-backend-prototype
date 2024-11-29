@@ -22,6 +22,7 @@ def update_challenge(
     name: str = Form(None),
     description: str = Form(None),
     points: int = Form(None),
+    level: str = Form(None),
     category: str = Form(None),
     file: UploadFile = File(None),
     flag: str = Form(None),
@@ -56,6 +57,8 @@ def update_challenge(
         challenge.category = category
     if flag is not None:
         challenge.flag = flag
+    if level is not None:
+        challenge.level = level
 
     if file:
         try:

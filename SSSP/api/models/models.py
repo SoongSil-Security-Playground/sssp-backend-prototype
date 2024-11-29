@@ -53,6 +53,7 @@ class Challenge(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(255), nullable=False)
     flag = Column(String(255), nullable=False)
+    level = Column(String(255), nullable=False)
     description = Column(Text, nullable=False)
     category = Column(String(255), nullable=False)
     file_path = Column(String(255))
