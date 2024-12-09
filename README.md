@@ -1,9 +1,21 @@
 # sssp-backend
 soongsil security playground Ctf Platform backend
 
+## About
+
+- 숭실대학교 소프트웨어학부 융합보안프로젝트2 과목에서 개발한 프로젝트 **"SSSP"** 의 backend api server입니다.
+
+## Backend Team
+
+|                         권정태                         |                         문형일                        |
+|:----------------------------------------------------:|:----------------------------------------------------:|
+| <img src="https://github.com/oxdjww.png?size=100">   | <img src="https://github.com/mhibio.png?size=100">   |
+|                  Backend Developer                   |                  Backend Developer                   |
+| <center>[oxdjww](https://github.com/oxdjww)</center> | <center>[mhibio](https://github.com/mhibio)</center> |
+
+
 ## Framework && Languages
 - FastAPI with python3
-- React
 - Database : MySQL
     - ORM: sqlalchemy
 
@@ -12,21 +24,3 @@ soongsil security playground Ctf Platform backend
 ```bash
 $ docker-compose up -d --build
 ```
-
-## Todo
-
-- submit_challenge.py
-    - 다이나믹 스코어로 바뀌면, 점수계산 다시해야지 ... 
-- global_exception_handler.py
-    - Python error detail 전체노출 나중 삭제
-    - Exception 뜨면 Catch해서 detail과 함께 error 메시지를 전송하도록
-        - sqlalchemy_data_error_handler()
-    - SQL enum
-        - SQL Enum에서 오류뜨면 truncated error 발생하는데 이거 수정하고, {detail:reason} 으로 수정하기 
-
-- auth/*
-    - Input validation 작업 
-
-- submit_challenge.py
-    - flag validation
-    - 무단 플래그 인증 취약점같은거 있는지 확인 ( 띄어쓰기가튼거 등 ) [ 아직 귀찮아서 안함 ㅋ..!! ]
