@@ -1,5 +1,5 @@
 # SSSP
-## Soongsil Security Playground Ctf Platform backend
+## Soongsil Security Playground Ctf Platform backend - prototype
 
 <img src="https://github.com/user-attachments/assets/44f19bf7-2fc4-4baa-a43d-25bb336f0670" alt="sssp" width="400">
 
